@@ -1,5 +1,7 @@
 # Lyrebird Java Client
 
+[![Build Status](https://travis-ci.com/Meituan-Dianping/lyrebird-java-client.svg?branch=master)](https://travis-ci.org/Meituan-Dianping/lyrebird-java-client)
+
 lyrebird-java-client 是[Lyrebird](https://github.com/Meituan-Dianping/lyrebird)的一个 Java SDK，通过调用Lyrebird本身提供的[API](https://meituan-dianping.github.io/lyrebird/guide/api.html)实现在Java项目中控制 Lyrebird Services。比如：激活Mock数据；实时查看、验证网络数据等。
 
 ## 安装
