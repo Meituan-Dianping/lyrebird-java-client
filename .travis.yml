@@ -1,7 +1,0 @@
-language: java
-
-jobs:
-  include:
-  - stage: unit test
-    jdk: openjdk8
-    script: mvn clean verify
