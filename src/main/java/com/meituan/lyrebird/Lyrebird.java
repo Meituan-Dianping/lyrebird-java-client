@@ -1,5 +1,7 @@
 package com.meituan.lyrebird;
 
+import java.lang.reflect.Method;
+
 import com.meituan.lyrebird.client.LyrebirdClient;
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
 import com.meituan.lyrebird.client.api.*;
@@ -26,6 +28,19 @@ public class Lyrebird {
             throw new LyrebirdClientException("Please start lyrebird server before call this function");
         }
         client.activate(groupID);
+    }
+
+    /**
+     * Activate lyrebird mock data group by group ID
+     * 
+     * @param method test method
+     * @throws LyrebirdClientException
+     */
+    public void activate(Method method) throws LyrebirdClientException {
+        if (client == null) {
+            throw new LyrebirdClientException("Please start lyrebird server before call this function");
+        }
+        client.activate(method);
     }
 
     /**

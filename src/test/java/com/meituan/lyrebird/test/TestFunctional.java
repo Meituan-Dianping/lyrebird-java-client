@@ -2,19 +2,25 @@ package com.meituan.lyrebird.test;
 
 import com.google.gson.Gson;
 import com.meituan.lyrebird.Lyrebird;
+import com.meituan.lyrebird.client.MockData;
 import com.meituan.lyrebird.client.api.*;
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
 import okhttp3.mockwebserver.*;
 import org.junit.*;
+import org.junit.rules.TestName;
 
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
+@MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
 public class TestFunctional {
     private MockWebServer mockServer;
     private Gson gson;
     private Lyrebird lyrebird;
+
+    @Rule 
+    public TestName name = new TestName();
 
     @Before
     public void setup() throws IOException {
@@ -148,5 +154,24 @@ public class TestFunctional {
 
         FlowDetail flow = this.lyrebird.getFlowDetail("67ea0002-9566-41db-8178-ca0c2f82a71a");
         assertEquals(1566805867.51, flow.getFlow().getStartTime(), 2);
+    }
+    
+    @Test
+    @MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
+    public void testActivateByMethodAnnotation() throws LyrebirdClientException, InterruptedException, NoSuchMethodException, SecurityException {
+        this.makeSuccessResponse();
+
+        this.lyrebird.activate(this.getClass().getDeclaredMethod(name.getMethodName()));
+        RecordedRequest req = this.mockServer.takeRequest();
+        Assert.assertEquals("request path not match", "/api/mock/89e0426c-9cf9-454a-bbe0-94246fc23b04/activate", req.getPath());
+    }
+
+    @Test
+    public void testActivateByClassAnnotation() throws LyrebirdClientException, InterruptedException, NoSuchMethodException, SecurityException {
+        this.makeSuccessResponse();
+
+        this.lyrebird.activate(this.getClass().getDeclaredMethod(name.getMethodName()));
+        RecordedRequest req = this.mockServer.takeRequest();
+        Assert.assertEquals("request path not match", "/api/mock/89e0426c-9cf9-454a-bbe0-94246fc23b04/activate", req.getPath());
     }
 }

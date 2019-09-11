@@ -42,7 +42,7 @@ int proxyPort = status.getPorxyPort();
 String lyrebirdIP = status.getIp();
 ```
 
-- 激活一组 Mock 数据
+- 使用 groupID 激活一组 Mock 数据
 
 ```java
 Lyrebird lyrebird = new Lyrebird();
@@ -52,6 +52,22 @@ lyrebird.activate("89e0426c-9cf9-454a-bbe0-94246fc23b04");
 
 // 取消激活Mock数据组
 lyrebird.deactivate();
+```
+
+- 使用 @注解 激活一组 Mock 数据
+
+```java
+// 在 class 上声明 @MockData 以激活 89e0426c-9cf9-454a-bbe0-94246fc23b04 Mock数据
+@MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
+public class TestClass {
+    ...
+}
+
+// 在 method 上声明 @MockData 以激活 89e0426c-9cf9-454a-bbe0-94246fc23b04 Mock数据
+@MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
+public void testMethod() {
+    ...
+}
 ```
 
 - 查看网络数据请求

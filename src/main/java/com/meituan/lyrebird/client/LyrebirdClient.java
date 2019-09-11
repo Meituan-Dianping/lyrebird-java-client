@@ -6,6 +6,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 public class LyrebirdClient {
     private LyrebirdService lyrebirdService;
@@ -51,6 +52,37 @@ public class LyrebirdClient {
         BaseResponse resp;
         try {
             resp = lyrebirdService.activate(groupID).execute().body();
+        } catch (IOException e) {
+            throw new LyrebirdClientException("Catch exception while activate data", e);
+        }
+        if (resp == null) {
+            throw new LyrebirdClientException("Got none response from activate request");
+        }
+        if (resp.getCode() != 1000) {
+            throw new LyrebirdClientException(resp.getMessage());
+        }
+    }
+
+    /**
+     * Activate lyrebird mock data group by group ID
+     * 
+     * @param method test method
+     * @throws LyrebirdClientException
+     */
+    public void activate(Method method) throws LyrebirdClientException {
+        BaseResponse resp;
+        MockData mockDataDeclareOnMethod = method.getDeclaredAnnotation(MockData.class);
+        MockData mockDataDeclaredOnClass = method.getDeclaringClass().getAnnotation(MockData.class);
+        
+        if (mockDataDeclareOnMethod == null && mockDataDeclaredOnClass == null) {
+            throw new LyrebirdClientException("Catch exception while activate data, can not found any @MockData annotation declared");
+        }
+        try {
+            if (mockDataDeclareOnMethod != null) {
+                resp = lyrebirdService.activate(mockDataDeclareOnMethod.groupID()).execute().body();
+            } else {
+                resp = lyrebirdService.activate(mockDataDeclaredOnClass.groupID()).execute().body();
+            }
         } catch (IOException e) {
             throw new LyrebirdClientException("Catch exception while activate data", e);
         }
