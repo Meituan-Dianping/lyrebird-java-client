@@ -8,7 +8,7 @@ lyrebird-java-client 是[Lyrebird](https://github.com/Meituan-Dianping/lyrebird)
 
 ```xml
 <dependency>
-  <groupId>com.meituan.lyrebird</groupId>
+  <groupId>com.meituan.lyrebird.sdk</groupId>
   <artifactId>lyrebird-java-client</artifactId>
   <version>RELEASE</version>
 </dependency>
