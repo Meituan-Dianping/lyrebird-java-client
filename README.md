@@ -54,7 +54,7 @@ lyrebird.activate("89e0426c-9cf9-454a-bbe0-94246fc23b04");
 lyrebird.deactivate();
 ```
 
-- 使用 @注解 激活一组 Mock 数据
+- 使用注解激活一组 Mock 数据
 
 ```java
 // 在测试类上声明 @MockData 注解并设置 groupID 和 groupName
