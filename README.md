@@ -78,7 +78,7 @@ public class JunitTestClass {
 
     @Before
     public void setup() throws LyrebirdClientException, NoSuchMethodException {
-        // 传入当前 test method 可以再运行时通过 Lyrebird Java SDK 反射激活 mock data
+        // 传入当前 test method 可以在运行时通过 Lyrebird Java SDK 反射激活 mock data
         this.lyrebird.activate(this.getClass().getDeclaredMethod(name.getMethodName()));
     }
 
@@ -95,7 +95,7 @@ public class TestNGTestClass {
 
     @BeforeMethod
     public void setup(Method testMethod) throws LyrebirdClientException, NoSuchMethodException {
-        // 传入当前 test method 可以再运行时通过 Lyrebird Java SDK 反射激活 mock data
+        // 传入当前 test method 可以在运行时通过 Lyrebird Java SDK 反射激活 mock data
         this.lyrebird.activate(testMethod);
     }
 
