@@ -57,16 +57,53 @@ lyrebird.deactivate();
 - 使用 @注解 激活一组 Mock 数据
 
 ```java
-// 在 class 上声明 @MockData 以激活 89e0426c-9cf9-454a-bbe0-94246fc23b04 Mock数据
+// 在测试类上声明 @MockData 注解并设置 groupID 和 groupName
 @MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
+@Test
 public class TestClass {
     ...
 }
 
-// 在 method 上声明 @MockData 以激活 89e0426c-9cf9-454a-bbe0-94246fc23b04 Mock数据
+// 或在测试方法上声明 @MockData 注解并设置 groupID 和 groupName
 @MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
+@Test
 public void testMethod() {
     ...
+}
+
+// Junit 使用示例
+public class JunitTestClass {
+    Lyrebird lyrebird = new Lyrebird();
+    @Rule public TestName name = new TestName();
+
+    @Before
+    public void setup() throws LyrebirdClientException, NoSuchMethodException {
+        // 传入当前 test method 可以再运行时通过 Lyrebird Java SDK 反射激活 mock data
+        this.lyrebird.activate(this.getClass().getDeclaredMethod(name.getMethodName()));
+    }
+
+    @Test
+    @MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
+    public void testMethod() {
+        ...
+    }
+}
+
+// TestNG 使用示例
+public class TestNGTestClass {
+    Lyrebird lyrebird = new Lyrebird();
+
+    @BeforeMethod
+    public void setup(Method testMethod) throws LyrebirdClientException, NoSuchMethodException {
+        // 传入当前 test method 可以再运行时通过 Lyrebird Java SDK 反射激活 mock data
+        this.lyrebird.activate(testMethod);
+    }
+
+    @Test
+    @MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
+    public void testMethod() {
+        ...
+    }
 }
 ```
 

@@ -158,7 +158,7 @@ public class TestFunctional {
     
     @Test
     @MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
-    public void testActivateByMethodAnnotation() throws LyrebirdClientException, InterruptedException, NoSuchMethodException, SecurityException {
+    public void testActivateByMethodAnnotation() throws LyrebirdClientException, InterruptedException, NoSuchMethodException {
         this.makeSuccessResponse();
 
         this.lyrebird.activate(this.getClass().getDeclaredMethod(name.getMethodName()));
@@ -167,7 +167,7 @@ public class TestFunctional {
     }
 
     @Test
-    public void testActivateByClassAnnotation() throws LyrebirdClientException, InterruptedException, NoSuchMethodException, SecurityException {
+    public void testActivateByClassAnnotation() throws LyrebirdClientException, InterruptedException, NoSuchMethodException {
         this.makeSuccessResponse();
 
         this.lyrebird.activate(this.getClass().getDeclaredMethod(name.getMethodName()));
