@@ -149,13 +149,13 @@ public class BaseCase {
 - 设置监听器方法二：在源码中直接添加
 
 ```java
-import com.meituan.lyrebird.Lyrebird;
+import com.meituan.lyrebird.client.events.TestNGListener;
 import com.meituan.lyrebird.client.MockData;
 ...
 
 
 @MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
-@Listeners(Lyrebird.class)
+@Listeners(TestNGListener.class)
 public class TestClass {
     ...
 }
@@ -178,7 +178,7 @@ public class TestClass {
                 <properties>
                     <property>
                         <name>listener</name>
-                        <value>com.meituan.lyrebird.Lyrebird</value>
+                        <value>com.meituan.lyrebird.client.events.Junit4Listener</value>
                     </property>
                 </properties>
             </configuration>
