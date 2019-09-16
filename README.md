@@ -111,7 +111,9 @@ public void testMethod() {
 }
 ```
 
-测试基类中，在 Before Class 或 Before Suite 声明 Lyrebird 成员变量，并实例化对象
+测试基类中声明 Lyrebird 成员变量，在 Before Class 或 Before Suite 时机实例化对象
+
+> 反射 @MockData 注解并激活数据是在 Before Method 时机完成的
 
 ```java
 public class BaseCase {
