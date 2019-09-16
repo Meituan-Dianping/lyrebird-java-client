@@ -9,7 +9,7 @@
   - [获取 Lyrebird Status](#获取-Lyrebird-Status)
   - [Mock 数据激活](#Mock-数据激活)
   - [查看网络数据请求](#查看网络数据请求)
-    - [获取 flowList](#获取-flowList)
+    - [获取 flow List](#获取-flow-List)
     - [获取 flow ID](#获取-flow-ID)
     - [获取请求持续时长](#获取请求持续时长)
     - [获取请求开始时间](#获取请求开始时间)
@@ -266,7 +266,7 @@ Flow 类属性
 | `request`   | 客户端请求服务端的请求Java对象  |
 | `response`  | 远端服务返回的响应报文Java对象  |
 
-#### 获取 flowList
+#### 获取 flow List
 
 > Flow 数据保存为一个 List，单个 flow data 数据详见上面的示例
 
