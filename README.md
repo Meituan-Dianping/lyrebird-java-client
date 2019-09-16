@@ -1,6 +1,35 @@
-# Lyrebird Java Client
+# 目录
+
+- [简介](#简介)
+- [快速开始](#快速开始)
+  - [环境要求](#环境要求)
+  - [安装](#安装)
+- [使用](#使用)
+  - [设置Lyrebird Client](#设置LyrebirdClient)
+  - [获取状态](#获取LyrebirdStatus)
+  - [Mock 数据激活](#Mock数据激活)
+  - [查看网络数据请求](#查看网络数据请求)
+    - [获取 flowList](#获取flowList)
+    - [获取 flow ID](#获取flowID)
+    - [获取请求持续时长](#获取请求持续时长)
+    - [获取请求开始时间](#获取请求开始时间)
+    - [获取请求对象](#获取请求对象)
+    - [获取返回对象](#获取返回对象)
+    - [清空 Flow 数据](#清空Flow数据)
+- [应用场景](#应用场景)
+  - [在 UI 自动化中校验请求参数是否符合预期](#在UI自动化中校验请求参数是否符合预期)
+  - [在 UI 自动化中校验返回与客户端展示是否一致](#在UI自动化中校验返回与客户端展示是否一致)
+
+# 简介
 
 lyrebird-java-client 是[Lyrebird](https://github.com/Meituan-Dianping/lyrebird)的一个 Java SDK，通过调用Lyrebird本身提供的[API](https://meituan-dianping.github.io/lyrebird/guide/api.html)实现在Java项目中控制 Lyrebird Services。比如：激活Mock数据；实时查看、验证网络数据等。
+
+# 快速开始
+
+## 环境要求
+
+- Java 1.8
+- Junit 4 or TestNG 6.14.x
 
 ## 安装
 
@@ -14,19 +43,23 @@ lyrebird-java-client 是[Lyrebird](https://github.com/Meituan-Dianping/lyrebird)
 </dependency>
 ```
 
-## 使用
+# 使用
 
-- 设置 Lyrebird Client
+## 设置 Lyrebird Client
+
+- 默认 Lyrebird 端口地址 (9090)
 
 ```java
-// 使用默认 Lyrebird 端口地址 (9090)
 Lyrebird lyrebird = new Lyrebird();
+```
 
-// 使用指定 Lyrebird 端口地址
+- 指定 Lyrebird 端口地址
+
+```java
 Lyrebird lyrebird = new Lyrebird("http://<lyrebird-ip>:<lyrebird-port>");
 ```
 
-- 获取 Lyrebird Status
+## 获取 Lyrebird Status
 
 ```java
 Lyrebird lyrebird = new Lyrebird();
@@ -42,72 +75,112 @@ int proxyPort = status.getPorxyPort();
 String lyrebirdIP = status.getIp();
 ```
 
-- 使用 groupID 激活一组 Mock 数据
+## Mock 数据激活
+
+- 指定 groupID 激活
+> groupID: 89e0426c-9cf9-454a-bbe0-94246fc23b04
 
 ```java
 Lyrebird lyrebird = new Lyrebird();
 
-// 激活Mock数据组，传入 group ID 例如： 89e0426c-9cf9-454a-bbe0-94246fc23b04
 lyrebird.activate("89e0426c-9cf9-454a-bbe0-94246fc23b04");
-
-// 取消激活Mock数据组
-lyrebird.deactivate();
 ```
 
-- 使用注解激活一组 Mock 数据
+- 使用注解方式激活
 
+在测试类或测试方法上声明 @MockData 注解并设置 groupID 和 groupName
 ```java
-// 在测试类上声明 @MockData 注解并设置 groupID 和 groupName
 @MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
-@Test
 public class TestClass {
     ...
 }
 
-// 或在测试方法上声明 @MockData 注解并设置 groupID 和 groupName
+
 @MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
 @Test
 public void testMethod() {
     ...
 }
+```
 
-// Junit 使用示例
-public class JunitTestClass {
-    Lyrebird lyrebird = new Lyrebird();
-    @Rule public TestName name = new TestName();
+TestNG 中设置监听器，能够在 onTestStart 时反射 MockData 注解进行数据激活
 
-    @Before
-    public void setup() throws LyrebirdClientException, NoSuchMethodException {
-        // 传入当前 test method 可以在运行时通过 Lyrebird Java SDK 反射激活 mock data
-        this.lyrebird.activate(this.getClass().getDeclaredMethod(name.getMethodName()));
-    }
+testng.xml 中添加监听器
+```xml
+<suite name="TestNGSample">
+<listeners>
+    <listener class-name="com.meituan.lyrebird;" />
+</listeners>
+<test name="Test Demo">
+    <classes>
+        <class name="tests.SampleTest" />
+    </classes>
+</test>
+</suite>
+```
 
-    @Test
-    @MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
-    public void testMethod() {
-        ...
-    }
-}
+或在源码中添加监听器
 
-// TestNG 使用示例
-public class TestNGTestClass {
-    Lyrebird lyrebird = new Lyrebird();
+```java
+import com.meituan.lyrebird.Lyrebird;
+import com.meituan.lyrebird.client.MockData;
+...
 
-    @BeforeMethod
-    public void setup(Method testMethod) throws LyrebirdClientException, NoSuchMethodException {
-        // 传入当前 test method 可以在运行时通过 Lyrebird Java SDK 反射激活 mock data
-        this.lyrebird.activate(testMethod);
-    }
 
-    @Test
-    @MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
-    public void testMethod() {
-        ...
-    }
+@MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
+@Listeners(Lyrebird.class)
+public class TestClass {
+    ...
 }
 ```
 
-- 查看网络数据请求
+同样地，在 Junit4 中也可以设置监听器，能够在 testStarted 时反射 mockData 注解进行数据激活
+
+maven 中添加监听器
+
+```xml
+<build>
+    <plugins>
+        [...]
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+                <properties>
+                    <property>
+                        <name>listener</name>
+                        <value>com.meituan.lyrebird.Lyrebird</value>
+                    </property>
+                </properties>
+            </configuration>
+        </plugin>
+        [...]
+</build>
+```
+
+或在源码中添加监听器
+
+```java
+import org.junit.runner.RunWith;
+import com.meituan.lyrebird.client.events.Junit4Runner;
+import com.meituan.lyrebird.client.MockData;
+
+@MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
+@RunWith(Junit4Runner.class)
+public class TestClass {
+    ...
+}
+```
+
+- 取消激活
+
+```java
+Lyrebird lyrebird = new Lyrebird();
+
+lyrebird.deactivate();
+```
+
+## 查看网络数据请求
 
 flow 示例
 ```javascript
@@ -179,41 +252,61 @@ flow detail 示例
 
 Flow 类属性
 
-| 属性名                  | 说明                                                        |
-| :------------------------ | :----------------------------------------------------------------- |
-| `id`                       | 描述 flow data 的唯一 ID 标识         |
-| `duration`                 | 客户端发起请求的持续时长           |
-| `startTime`                | 客户端发起请求的时间戳             |
-| `request`                  | 客户端请求服务端的请求Java对象      |
-| `response`                 | 远端服务返回的响应报文Java对象         |
+| 属性名       | 说明                         |
+| :---------- | :-------------------------- |
+| `id`        | 描述 flow data 的唯一 ID 标识 |
+| `duration`  | 客户端发起请求的持续时长        |
+| `startTime` | 客户端发起请求的时间戳         |
+| `request`   | 客户端请求服务端的请求Java对象  |
+| `response`  | 远端服务返回的响应报文Java对象  |
 
+### 获取 flowList
+> Flow 数据保存为一个 List，单个 flow data 数据详见上面的示例
 
 ```java
 Lyrebird lyrebird = new Lyrebird();
 
-// 获取 Flow 数据保存为一个 List，单个 flow data 数据详见上面的示例
 Flow[] flowList = lyrebird.getFlowList();
+```
 
-// 获取 flow ID
+### 获取 flow ID
+
+```java
 String flowId = flowList[0].getId();
+```
 
-// 获取请求持续时长
+### 获取请求持续时长
+
+```java
 double duration = flowList[0].getDuration();
+```
 
+### 获取请求开始时间
+
+```java
 // 获取请求开始时间
 double startTime = flowList[0].getStartTime();
 
-// 通过 flow id 获取该条 flow 数据的详细信息
+## 获取 flow 数据的详细信息
+> 默认 flow 中包含的网络数据是概要信息，可以通过 flow id 获取网络数据详细信息
+
+```java
 FlowDetail flowDetail = lyrebird.getFlowDetail(flowId);
+```
 
-// 获取请求对象
+### 获取请求对象
+
+```java
 Request request = flowDetail.getRequest();
+```
 
-// 通过 flow id 获取返回对象
+### 获取返回对象
+
+```java
 Response response = flowDetail.getResponse();
 ```
 
-- 清空 Flow 数据
+### 清空 Flow 数据
 
 ```java
 Lyrebird lyrebird = new Lyrebird();
@@ -222,7 +315,7 @@ Lyrebird lyrebird = new Lyrebird();
 lyrebird.clearFlowList();
 ```
 
-## 应用场景
+# 应用场景
 
 在UI自动化中，可将移动设备通过代理的方式将请求数据接入Lyrebird，[操作指南](https://github.com/Meituan-Dianping/lyrebird#连接移动设备)，在测试用例中通过调用Lyrebird API来校验网络请求参数是否符合预期。
 
@@ -230,26 +323,26 @@ Lyrebird Java SDK 分别提供 Request, Response 类描述客户端发起的请�
 
 Request 类
 
-| 属性名                  | 说明                                                        |
-| :------------------------ | :----------------------------------------------------------------- |
-| `headers`                | 客户端请求报文头部  |
-| `method`                 | 客户端HTTP请求方法 |
-| `query`                  | query参数 |
-| `url`                    | 客户端请求url |
-| `host`                   | 客户端请求host |
-| `path`                   | 客户端请求path |
-| `data`                   | from-data参数 |
+| 属性名     | 说明             |
+| :-------- | :-------------- |
+| `headers` | 客户端请求报文头部 |
+| `method`  | 客户端HTTP请求方法 |
+| `query`   | query参数        |
+| `url`     | 客户端请求url     |
+| `host`    | 客户端请求host    |
+| `path`    | 客户端请求path    |
+| `data`    | from-data参数    |
 
 Response 类
 
-| 属性名                  | 说明                                                        |
-| :------------------------ | :----------------------------------------------------------------- |
-| `code`                    | HTTP 状态码                   |
-| `headers`                 | 服务端返回响应报文头部           |
-| `data`                    | 服务端返回响应报文主体           |
+| 属性名     | 说明                 |
+| :-------- | :------------------ |
+| `code`    | HTTP 状态码          |
+| `headers` | 服务端返回响应报文头部  |
+| `data`    | 服务端返回响应报文主体  |
 
 
-- 在 UI 自动化中校验请求参数是否符合预期
+## 在UI自动化中校验请求参数是否符合预期
 
 ```java
 // 实例化 Lyrebird 对象
@@ -278,7 +371,7 @@ for (Flow flow : flowList) {
 }
 ```
 
-- 在 UI 自动化中校验返回与客户端展示是否一致
+## 在UI自动化中校验返回与客户端展示是否一致
 
 ```java
 // 实例化 Lyrebird 对象
