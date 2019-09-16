@@ -13,6 +13,7 @@
     - [获取 flow ID](#获取-flow-ID)
     - [获取请求持续时长](#获取请求持续时长)
     - [获取请求开始时间](#获取请求开始时间)
+    - [获取 flow 数据的详细信息](#获取-flow-数据的详细信息)
     - [获取请求对象](#获取请求对象)
     - [获取返回对象](#获取返回对象)
     - [清空 Flow 数据](#清空-Flow-数据)
@@ -290,10 +291,11 @@ double duration = flowList[0].getDuration();
 #### 获取请求开始时间
 
 ```java
-// 获取请求开始时间
 double startTime = flowList[0].getStartTime();
+```
 
-## 获取 flow 数据的详细信息
+#### 获取 flow 数据的详细信息
+
 > 默认 flow 中包含的网络数据是概要信息，可以通过 flow id 获取网络数据详细信息
 
 ```java
