@@ -4,25 +4,26 @@ import com.google.gson.Gson;
 import com.meituan.lyrebird.Lyrebird;
 import com.meituan.lyrebird.client.MockData;
 import com.meituan.lyrebird.client.api.*;
+import com.meituan.lyrebird.client.events.TestNGListener;
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
 import okhttp3.mockwebserver.*;
 
 import org.testng.Assert;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 
 @MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
-@Listeners(Lyrebird.class)
+@Listeners(TestNGListener.class)
 public class TestTestNGListener {
     private MockWebServer mockServer;
     private Gson gson;
     private Lyrebird lyrebird;
 
-    @BeforeSuite
+    @BeforeClass
     public void setup() throws IOException {
         this.gson = new Gson();
         this.mockServer = new MockWebServer();
@@ -31,7 +32,7 @@ public class TestTestNGListener {
         makeSuccessResponse();
     }
 
-    @AfterSuite
+    @AfterClass
     public void teardown() throws IOException {
         if(this.mockServer!=null) {
             this.mockServer.close();

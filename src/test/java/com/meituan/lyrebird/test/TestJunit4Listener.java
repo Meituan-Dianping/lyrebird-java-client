@@ -16,16 +16,16 @@ import java.io.IOException;
 public class TestJunit4Listener {
     private static MockWebServer mockServer;
     private static Gson gson;
-    private static Lyrebird lyrebird;
+    public static Lyrebird lyrebird;
     static {
         mockServer = new MockWebServer();
         gson = new Gson();
-        lyrebird = new Lyrebird();
         try {
-            mockServer.start(9090);
+            mockServer.start(8081);
         } catch (IOException e) {
             System.out.println(e);
         }
+        lyrebird = new Lyrebird("http://localhost:8081/");
         makeSuccessResponse();
     }
 
@@ -47,7 +47,6 @@ public class TestJunit4Listener {
     @Test
     @MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
     public void testActivate() throws InterruptedException, LyrebirdClientException {
-        System.out.println("sfsdffsdf");
         RecordedRequest req = mockServer.takeRequest();
         Assert.assertEquals("request path not match", "/api/mock/89e0426c-9cf9-454a-bbe0-94246fc23b04/activate", req.getPath());
     }

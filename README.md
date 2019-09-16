@@ -8,6 +8,11 @@
   - [设置 Lyrebird Client](#设置-Lyrebird-Client)
   - [获取 Lyrebird Status](#获取-Lyrebird-Status)
   - [Mock 数据激活](#Mock-数据激活)
+    - [使用 groupID 激活](#使用-groupID-激活)
+    - [使用注解方式激活](#使用注解方式激活)
+      - [TestNG](#TestNG)
+      - [Junit4](#Junit4)
+    - [取消激活](#取消激活)
   - [查看网络数据请求](#查看网络数据请求)
     - [获取 flow List](#获取-flow-List)
     - [获取 flow ID](#获取-flow-ID)
@@ -78,7 +83,7 @@ String lyrebirdIP = status.getIp();
 
 ### Mock 数据激活
 
-- 指定 groupID 激活
+#### 使用 groupID 激活
 
 > groupID: 89e0426c-9cf9-454a-bbe0-94246fc23b04
 
@@ -88,9 +93,9 @@ Lyrebird lyrebird = new Lyrebird();
 lyrebird.activate("89e0426c-9cf9-454a-bbe0-94246fc23b04");
 ```
 
-- 使用注解方式激活
+#### 使用注解方式激活
 
-在测试类或测试方法上声明 @MockData 注解并设置 groupID 和 groupName
+在测试类或测试方法上声明 MockData 注解并设置 groupID 和 groupName
 
 ```java
 @MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
@@ -106,14 +111,30 @@ public void testMethod() {
 }
 ```
 
-TestNG 中设置监听器，能够在 onTestStart 时反射 MockData 注解进行数据激活
+测试基类中，在 Before Class 或 Before Suite 声明 Lyrebird 成员变量，并实例化对象
 
-testng.xml 中添加监听器
+```java
+public class BaseCase {
+    private Lyrebird lyrebird;
+
+    @BeforeClass
+    public void setup() {
+        lyrebird = new Lyrebird();
+        ...
+    }
+}
+```
+
+#### TestNG
+
+在 onTestStart 时反射 MockData 注解进行数据激活
+
+- 设置监听器方法一：testng.xml 中添加 listeners 标签
 
 ```xml
 <suite name="TestNGSample">
 <listeners>
-    <listener class-name="com.meituan.lyrebird.Lyrebird" />
+    <listener class-name="com.meituan.lyrebird.client.events.TestNGListener" />
 </listeners>
 <test name="Test Demo">
     <classes>
@@ -123,7 +144,7 @@ testng.xml 中添加监听器
 </suite>
 ```
 
-或在源码中添加监听器
+- 设置监听器方法二：在源码中直接添加
 
 ```java
 import com.meituan.lyrebird.Lyrebird;
@@ -138,9 +159,11 @@ public class TestClass {
 }
 ```
 
-同样地，在 Junit4 中也可以设置监听器，能够在 testStarted 时反射 mockData 注解进行数据激活
+#### Junit4
 
-maven 中添加监听器
+在 testStarted 时反射 mockData 注解进行数据激活
+
+- 设置监听器方法一：修改 pom.xml
 
 ```xml
 <build>
@@ -162,7 +185,7 @@ maven 中添加监听器
 </build>
 ```
 
-或在源码中添加监听器
+- 设置监听器方法二：源码中直接添加
 
 ```java
 import org.junit.runner.RunWith;
@@ -176,7 +199,7 @@ public class TestClass {
 }
 ```
 
-- 取消激活
+#### 取消激活
 
 ```java
 Lyrebird lyrebird = new Lyrebird();

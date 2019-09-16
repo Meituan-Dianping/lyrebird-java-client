@@ -5,19 +5,13 @@ import java.lang.reflect.Method;
 import com.meituan.lyrebird.client.LyrebirdClient;
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
 
-import org.junit.runner.Description;
-import org.junit.runner.notification.RunListener;
-import org.testng.ITestContext;
-import org.testng.ITestListener;
-import org.testng.ITestResult;
-
 import com.meituan.lyrebird.client.api.*;
 
-public class Lyrebird extends RunListener implements ITestListener {
+public class Lyrebird {
     private LyrebirdClient client;
 
     public Lyrebird() {
-        this("http://localhost:9090");
+        this("http://localhost:9090/");
     }
 
     public Lyrebird(String lyrebirdRemoteAddress) {
@@ -111,37 +105,5 @@ public class Lyrebird extends RunListener implements ITestListener {
             throw new LyrebirdClientException("Please start lyrebird server before call this function");
         }
         client.clearFlowList();
-    }
-
-    @Override
-    public void onFinish(ITestContext iTestContext) { }
-
-    @Override
-    public void onStart(ITestContext iTestContext) { }
-
-    @Override
-    public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) { }
-
-    @Override
-    public void onTestFailure(ITestResult iTestResult) { }
-
-    @Override
-    public void onTestSkipped(ITestResult iTestResult) { }
-
-    
-    @Override
-    public void onTestSuccess(ITestResult arg0) { }
-    
-    @Override
-    public void onTestStart(ITestResult iTestResult) {
-        try {
-            this.client.activate(iTestResult.getMethod().getConstructorOrMethod().getMethod());
-        } catch (LyrebirdClientException e) {
-            System.out.println("Please start lyrebird server before call this function");
-        }
-    }
-
-    public void testStarted(Description description) throws NoSuchMethodException, SecurityException, LyrebirdClientException {
-        this.client.activate(description.getTestClass().getMethod(description.getMethodName()));
     }
 }
