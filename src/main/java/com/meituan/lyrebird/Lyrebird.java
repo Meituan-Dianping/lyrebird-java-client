@@ -37,7 +37,7 @@ public class Lyrebird extends RunListener implements ITestListener {
     }
 
     /**
-     * Activate lyrebird mock data group by group ID
+     * Activate lyrebird mock data group by @MockData annotation
      * 
      * @param method test method
      * @throws LyrebirdClientException

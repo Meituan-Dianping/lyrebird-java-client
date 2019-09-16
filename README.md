@@ -20,18 +20,18 @@
   - [在UI自动化中校验请求参数是否符合预期](#在UI自动化中校验请求参数是否符合预期)
   - [在UI自动化中校验返回与客户端展示是否一致](#在UI自动化中校验返回与客户端展示是否一致)
 
-# 简介
+## 简介
 
 lyrebird-java-client 是[Lyrebird](https://github.com/Meituan-Dianping/lyrebird)的一个 Java SDK，通过调用Lyrebird本身提供的[API](https://meituan-dianping.github.io/lyrebird/guide/api.html)实现在Java项目中控制 Lyrebird Services。比如：激活Mock数据；实时查看、验证网络数据等。
 
-# 快速开始
+## 快速开始
 
-## 环境要求
+### 环境要求
 
 - Java 1.8
 - Junit 4 or TestNG 6.14.x
 
-## 安装
+### 安装
 
 - Maven项目添加如下依赖到 pom.xml 文件中
 
@@ -43,9 +43,9 @@ lyrebird-java-client 是[Lyrebird](https://github.com/Meituan-Dianping/lyrebird)
 </dependency>
 ```
 
-# 使用
+## 使用
 
-## 设置 Lyrebird Client
+### 设置 Lyrebird Client
 
 - 默认 Lyrebird 端口地址 (9090)
 
@@ -59,7 +59,7 @@ Lyrebird lyrebird = new Lyrebird();
 Lyrebird lyrebird = new Lyrebird("http://<lyrebird-ip>:<lyrebird-port>");
 ```
 
-## 获取 Lyrebird Status
+### 获取 Lyrebird Status
 
 ```java
 Lyrebird lyrebird = new Lyrebird();
@@ -75,9 +75,10 @@ int proxyPort = status.getPorxyPort();
 String lyrebirdIP = status.getIp();
 ```
 
-## Mock 数据激活
+### Mock 数据激活
 
 - 指定 groupID 激活
+
 > groupID: 89e0426c-9cf9-454a-bbe0-94246fc23b04
 
 ```java
@@ -89,6 +90,7 @@ lyrebird.activate("89e0426c-9cf9-454a-bbe0-94246fc23b04");
 - 使用注解方式激活
 
 在测试类或测试方法上声明 @MockData 注解并设置 groupID 和 groupName
+
 ```java
 @MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
 public class TestClass {
@@ -106,10 +108,11 @@ public void testMethod() {
 TestNG 中设置监听器，能够在 onTestStart 时反射 MockData 注解进行数据激活
 
 testng.xml 中添加监听器
+
 ```xml
 <suite name="TestNGSample">
 <listeners>
-    <listener class-name="com.meituan.lyrebird;" />
+    <listener class-name="com.meituan.lyrebird.Lyrebird" />
 </listeners>
 <test name="Test Demo">
     <classes>
@@ -180,9 +183,10 @@ Lyrebird lyrebird = new Lyrebird();
 lyrebird.deactivate();
 ```
 
-## 查看网络数据请求
+### 查看网络数据请求
 
 flow 示例
+
 ```javascript
 [
     {
@@ -205,6 +209,7 @@ flow 示例
 ```
 
 flow detail 示例
+
 ```javascript
 {
     "id": "b193416d-f89c-435f-b158-4e47911cf98b",
@@ -260,7 +265,8 @@ Flow 类属性
 | `request`   | 客户端请求服务端的请求Java对象  |
 | `response`  | 远端服务返回的响应报文Java对象  |
 
-### 获取 flowList
+#### 获取 flowList
+
 > Flow 数据保存为一个 List，单个 flow data 数据详见上面的示例
 
 ```java
@@ -269,19 +275,19 @@ Lyrebird lyrebird = new Lyrebird();
 Flow[] flowList = lyrebird.getFlowList();
 ```
 
-### 获取 flow ID
+#### 获取 flow ID
 
 ```java
 String flowId = flowList[0].getId();
 ```
 
-### 获取请求持续时长
+#### 获取请求持续时长
 
 ```java
 double duration = flowList[0].getDuration();
 ```
 
-### 获取请求开始时间
+#### 获取请求开始时间
 
 ```java
 // 获取请求开始时间
@@ -294,19 +300,19 @@ double startTime = flowList[0].getStartTime();
 FlowDetail flowDetail = lyrebird.getFlowDetail(flowId);
 ```
 
-### 获取请求对象
+#### 获取请求对象
 
 ```java
 Request request = flowDetail.getRequest();
 ```
 
-### 获取返回对象
+#### 获取返回对象
 
 ```java
 Response response = flowDetail.getResponse();
 ```
 
-### 清空 Flow 数据
+#### 清空 Flow 数据
 
 ```java
 Lyrebird lyrebird = new Lyrebird();
@@ -315,7 +321,7 @@ Lyrebird lyrebird = new Lyrebird();
 lyrebird.clearFlowList();
 ```
 
-# 应用场景
+## 应用场景
 
 在UI自动化中，可将移动设备通过代理的方式将请求数据接入Lyrebird，[操作指南](https://github.com/Meituan-Dianping/lyrebird#连接移动设备)，在测试用例中通过调用Lyrebird API来校验网络请求参数是否符合预期。
 
@@ -341,8 +347,7 @@ Response 类
 | `headers` | 服务端返回响应报文头部  |
 | `data`    | 服务端返回响应报文主体  |
 
-
-## 在UI自动化中校验请求参数是否符合预期
+### 在UI自动化中校验请求参数是否符合预期
 
 ```java
 // 实例化 Lyrebird 对象
@@ -371,7 +376,7 @@ for (Flow flow : flowList) {
 }
 ```
 
-## 在UI自动化中校验返回与客户端展示是否一致
+### 在UI自动化中校验返回与客户端展示是否一致
 
 ```java
 // 实例化 Lyrebird 对象
