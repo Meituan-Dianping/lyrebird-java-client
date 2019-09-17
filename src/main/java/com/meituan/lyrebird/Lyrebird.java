@@ -1,19 +1,40 @@
 package com.meituan.lyrebird;
 
+import java.lang.reflect.Method;
+
 import com.meituan.lyrebird.client.LyrebirdClient;
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
-import com.meituan.lyrebird.client.api.*;
 
+import com.meituan.lyrebird.client.api.*;
 
 public class Lyrebird {
     private LyrebirdClient client;
+    private static ThreadLocal<String> remoteAddress = ThreadLocal.withInitial(() -> "http://localhost:9090/");
 
     public Lyrebird() {
-        this("http://localhost:9090");
+        this(remoteAddress.get());
     }
 
     public Lyrebird(String lyrebirdRemoteAddress) {
         client = new LyrebirdClient(lyrebirdRemoteAddress);
+    }
+
+    /**
+     * set remote lyrebird server address
+     * 
+     * @param url e.g http://localhost:9090
+     */
+    public static void setRemoteAddress(String url) {
+        remoteAddress.set(url);
+    }
+
+    /**
+     * get remote lyrebird server address
+     * 
+     * @return remoteAddress Lyrebird server address
+     */
+    public static String getRemoteAddress() {
+        return remoteAddress.get();
     }
 
     /**
@@ -26,6 +47,19 @@ public class Lyrebird {
             throw new LyrebirdClientException("Please start lyrebird server before call this function");
         }
         client.activate(groupID);
+    }
+
+    /**
+     * Activate lyrebird mock data group by @MockData annotation
+     * 
+     * @param method test method
+     * @throws LyrebirdClientException
+     */
+    public void activate(Method method) throws LyrebirdClientException {
+        if (client == null) {
+            throw new LyrebirdClientException("Please start lyrebird server before call this function");
+        }
+        client.activate(method);
     }
 
     /**
