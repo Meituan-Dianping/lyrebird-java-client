@@ -1,7 +1,6 @@
 package com.meituan.lyrebird.test;
 
 import com.google.gson.Gson;
-import com.meituan.lyrebird.Lyrebird;
 import com.meituan.lyrebird.client.MockData;
 import com.meituan.lyrebird.client.api.*;
 import com.meituan.lyrebird.client.events.Junit4Runner;
@@ -16,21 +15,17 @@ import java.io.IOException;
 public class TestJunit4Listener {
     private static MockWebServer mockServer;
     private static Gson gson;
-    public static Lyrebird lyrebird;
-    static {
-        mockServer = new MockWebServer();
+
+    @BeforeClass
+    public static void setup() throws IOException {
         gson = new Gson();
-        try {
-            mockServer.start(8081);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        lyrebird = new Lyrebird("http://localhost:8081/");
+        mockServer = new MockWebServer();
+        mockServer.start(9090);
         makeSuccessResponse();
     }
 
-    @After
-    public void teardown() throws IOException {
+    @AfterClass
+    public static void teardown() throws IOException {
         if (mockServer!=null) {
             mockServer.close();
             mockServer = null;

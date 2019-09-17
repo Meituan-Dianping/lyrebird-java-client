@@ -10,33 +10,32 @@ import okhttp3.mockwebserver.*;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 @MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
 @Listeners(TestNGListener.class)
 public class TestTestNGListener {
     private MockWebServer mockServer;
     private Gson gson;
-    private Lyrebird lyrebird;
 
-    @BeforeClass
-    public void setup() throws IOException {
+    @BeforeMethod(alwaysRun = true)
+    public void init(Method method) throws LyrebirdClientException, IOException {
         this.gson = new Gson();
         this.mockServer = new MockWebServer();
-        this.mockServer.start(9090);
-        this.lyrebird = new Lyrebird();
+        this.mockServer.start();
+        Lyrebird.setRemoteAddress(String.format("http://%s:%d", this.mockServer.getHostName(), this.mockServer.getPort()));
         makeSuccessResponse();
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void teardown() throws IOException {
-        if(this.mockServer!=null) {
+        if(this.mockServer != null) {
             this.mockServer.close();
-            this.mockServer = null;
         }
     }
 

@@ -6,27 +6,14 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import java.lang.reflect.Field;
-
 public class TestNGListener implements ITestListener {
     
     @Override
     public void onTestStart(ITestResult result) {
+        Lyrebird lyrebird = new Lyrebird(Lyrebird.getRemoteAddress());
         try {
-            Lyrebird lyrebird = null;
-            for (Field field : result.getTestClass().getRealClass().getDeclaredFields()) {
-                if (field.getType() == Lyrebird.class) {
-                    field.setAccessible(true);
-                    lyrebird = (Lyrebird) field.get(result.getInstance());
-                }
-            }
-
-            if (lyrebird == null) {
-                return;
-            }
-
             lyrebird.activate(result.getMethod().getConstructorOrMethod().getMethod());
-        } catch (LyrebirdClientException | IllegalAccessException e) {
+        } catch (LyrebirdClientException e) {
             System.out.println(e);
         }
     }
@@ -53,11 +40,11 @@ public class TestNGListener implements ITestListener {
 
     @Override
     public void onStart(ITestContext context) {
-
+        
     }
 
     @Override
     public void onFinish(ITestContext context) {
-
+        
     }
 }

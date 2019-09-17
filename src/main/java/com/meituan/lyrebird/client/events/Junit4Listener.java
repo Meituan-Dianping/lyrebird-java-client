@@ -5,24 +5,12 @@ import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunListener;
 
-import java.lang.reflect.Field;
-
 public class Junit4Listener extends RunListener {
     
     @Override
-    public void testStarted(Description description) throws SecurityException, IllegalAccessException, LyrebirdClientException, NoSuchMethodException {
-        Lyrebird lyrebird = null;
-        for (Field field: description.getTestClass().getDeclaredFields()) {
-            if (field.getType() == Lyrebird.class) {
-                field.setAccessible(true);
-                lyrebird = (Lyrebird) field.get(description);
-            }
-        }
-
-        if (lyrebird == null) {
-            return;
-        }
-
+    public void testStarted(Description description)
+            throws NoSuchMethodException, SecurityException, LyrebirdClientException {
+        Lyrebird lyrebird = new Lyrebird(Lyrebird.getRemoteAddress());
         lyrebird.activate(description.getTestClass().getMethod(description.getMethodName()));
     }
 }

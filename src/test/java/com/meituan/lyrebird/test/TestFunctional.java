@@ -2,7 +2,6 @@ package com.meituan.lyrebird.test;
 
 import com.google.gson.Gson;
 import com.meituan.lyrebird.Lyrebird;
-import com.meituan.lyrebird.client.MockData;
 import com.meituan.lyrebird.client.api.*;
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
 import okhttp3.mockwebserver.*;
@@ -12,7 +11,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
-@MockData(groupID = "89e0426c-9cf9-454a-bbe0-94246fc23b04", groupName = "首页")
 public class TestFunctional {
     private MockWebServer mockServer;
     private Gson gson;

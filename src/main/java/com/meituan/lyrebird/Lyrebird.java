@@ -9,13 +9,32 @@ import com.meituan.lyrebird.client.api.*;
 
 public class Lyrebird {
     private LyrebirdClient client;
+    private static ThreadLocal<String> remoteAddress = ThreadLocal.withInitial(() -> "http://localhost:9090/");
 
     public Lyrebird() {
-        this("http://localhost:9090/");
+        this(remoteAddress.get());
     }
 
     public Lyrebird(String lyrebirdRemoteAddress) {
         client = new LyrebirdClient(lyrebirdRemoteAddress);
+    }
+
+    /**
+     * set remote lyrebird server address
+     * 
+     * @param url e.g http://localhost:9090
+     */
+    public static void setRemoteAddress(String url) {
+        remoteAddress.set(url);
+    }
+
+    /**
+     * get remote lyrebird server address
+     * 
+     * @return remoteAddress Lyrebird server address
+     */
+    public static String getRemoteAddress() {
+        return remoteAddress.get();
     }
 
     /**
