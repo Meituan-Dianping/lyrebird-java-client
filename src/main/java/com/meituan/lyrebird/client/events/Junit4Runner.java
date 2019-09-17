@@ -6,8 +6,8 @@ import org.junit.runners.model.InitializationError;
 
 public class Junit4Runner extends BlockJUnit4ClassRunner {
 
-    public Junit4Runner(Class<?> klass) throws InitializationError {
-        super(klass);
+    public Junit4Runner(Class<?> clazz) throws InitializationError {
+        super(clazz);
     }
     
     @Override public void run(RunNotifier notifier){

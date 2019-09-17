@@ -8,7 +8,7 @@ import org.junit.runner.notification.RunListener;
 import java.lang.reflect.Field;
 
 public class Junit4Listener extends RunListener {
-
+    
     @Override
     public void testStarted(Description description) throws SecurityException, IllegalAccessException, LyrebirdClientException, NoSuchMethodException {
         Lyrebird lyrebird = null;
