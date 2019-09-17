@@ -8,8 +8,8 @@
   - [设置 Lyrebird Client](#设置-Lyrebird-Client)
   - [获取 Lyrebird Status](#获取-Lyrebird-Status)
   - [Mock 数据激活](#Mock-数据激活)
-    - [使用 groupID 激活](#使用-groupID-激活)
-    - [使用注解方式激活](#使用注解方式激活)
+    - [使用 groupID 手动激活](#使用-groupID-手动激活)
+    - [使用注解方式自动激活](#使用注解方式自动激活)
       - [TestNG](#TestNG)
       - [Junit4](#Junit4)
     - [取消激活](#取消激活)
@@ -83,7 +83,7 @@ String lyrebirdIP = status.getIp();
 
 ### Mock 数据激活
 
-#### 使用 groupID 激活
+#### 使用 groupID 手动激活
 
 > groupID: 89e0426c-9cf9-454a-bbe0-94246fc23b04
 
@@ -93,7 +93,7 @@ Lyrebird lyrebird = new Lyrebird();
 lyrebird.activate("89e0426c-9cf9-454a-bbe0-94246fc23b04");
 ```
 
-#### 使用注解方式激活
+#### 使用注解方式自动激活
 
 在测试类或测试方法上声明 MockData 注解并设置 groupID 和 groupName
 
@@ -111,17 +111,16 @@ public void testMethod() {
 }
 ```
 
-测试基类中声明 Lyrebird 成员变量，在 Before Class 或 Before Suite 时机实例化对象
-
-> 反射 @MockData 注解并激活数据是在 Before Method 时机完成的
+如果 Lyrebird 启动在特定的域名端口下，需要在测试方法执行前设置 Lyrebird 服务地址
 
 ```java
-public class BaseCase {
-    private Lyrebird lyrebird;
+// import here
 
-    @BeforeClass
+public class DemoCase {
+    @BeforeMethod
     public void setup() {
-        lyrebird = new Lyrebird();
+        // Lyrebird server that start on local port 8082
+        Lyrebird.setRemoteAddress("http://localhost:8082");
         ...
     }
 }
@@ -129,9 +128,9 @@ public class BaseCase {
 
 #### TestNG
 
-在 onTestStart 时反射 MockData 注解进行数据激活
+设置监听器
 
-- 设置监听器方法一：testng.xml 中添加 listeners 标签
+- 方法一：修改 testng.xml
 
 ```xml
 <suite name="TestNGSample">
@@ -146,7 +145,7 @@ public class BaseCase {
 </suite>
 ```
 
-- 设置监听器方法二：在源码中直接添加
+- 方法二：源码中直接添加
 
 ```java
 import com.meituan.lyrebird.client.events.TestNGListener;
@@ -163,9 +162,9 @@ public class TestClass {
 
 #### Junit4
 
-在 testStarted 时反射 mockData 注解进行数据激活
+设置监听器
 
-- 设置监听器方法一：修改 pom.xml
+- 方法一：修改 pom.xml
 
 ```xml
 <build>
@@ -187,7 +186,7 @@ public class TestClass {
 </build>
 ```
 
-- 设置监听器方法二：源码中直接添加
+- 方法二：源码中直接添加
 
 ```java
 import org.junit.runner.RunWith;
