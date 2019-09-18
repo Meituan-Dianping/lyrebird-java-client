@@ -1,6 +1,7 @@
 package com.meituan.lyrebird.test;
 
 import com.google.gson.Gson;
+import com.jayway.jsonpath.JsonPath;
 import com.meituan.lyrebird.Lyrebird;
 import com.meituan.lyrebird.client.api.*;
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
@@ -148,5 +149,22 @@ public class TestFunctional {
 
         FlowDetail flow = this.lyrebird.getFlowDetail("67ea0002-9566-41db-8178-ca0c2f82a71a");
         assertEquals(1566805867.51, flow.getFlow().getStartTime(), 2);
+    }
+
+    @Test
+    public void testEventList() throws LyrebirdClientException, InterruptedException {
+        this.mockServer.enqueue(new MockResponse()
+            .setBody(
+                "{\"code\": 1000,\"events\": [{\"channel\": \"page\",\"content\":\"{\\\"page\\\": \\\"com.lyrebird.java.client\\\", \\\"url\\\": null}\",\"event_id\": \"81825f43-5fd6-45f7-b22b-83493ca99e46\",\"id\": 44463,\"timestamp\": 1568277444.738399},{\"channel\": \"page\",\"content\":\"{\\\"page\\\": \\\"com.lyrebird.java.client\\\", \\\"url\\\": \\\"www.lyrebird.com\\\"}\",\"event_id\": \"1b399d1b-b53f-4da9-b2fc-d5576d3d9e58\",\"id\": 44410,\"timestamp\": 1568277440.43741}],\"message\": \"success\",\"page\": 0,\"page_count\": 82,\"page_size\": 20}"
+            ));
+        
+        EventDetail[] eventList = this.lyrebird.getEventList("page");
+        RecordedRequest req = this.mockServer.takeRequest();
+
+        Assert.assertEquals("request path not match", "/api/event/page", req.getPath());
+        Assert.assertTrue(eventList.length > 0);
+        Assert.assertEquals("page", eventList[0].getChannel());
+        Assert.assertEquals("com.lyrebird.java.client", JsonPath.parse(eventList[0].getContent()).read("$.page"));
+        Assert.assertEquals("81825f43-5fd6-45f7-b22b-83493ca99e46", eventList[0].getEventID());
     }
 }
