@@ -1,4 +1,4 @@
-package com.meituan.lyrebird.client.events;
+package com.meituan.lyrebird.client.listeners;
 
 import com.meituan.lyrebird.Lyrebird;
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;

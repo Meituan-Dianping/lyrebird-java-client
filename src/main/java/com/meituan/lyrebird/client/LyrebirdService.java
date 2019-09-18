@@ -24,4 +24,7 @@ public interface LyrebirdService {
     @Headers("Content-Type: application/json")
     @HTTP(method = "DELETE",path = "api/flow",hasBody = true)
     Call<BaseResponse> clearFlowList(@Body Flow flow);
+
+    @GET("api/event/{channel}")
+    Call<Events> getEventList(@Path("channel") String channel);
 }

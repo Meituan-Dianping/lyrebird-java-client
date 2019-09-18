@@ -13,7 +13,7 @@
       - [TestNG](#TestNG)
       - [Junit4](#Junit4)
     - [取消激活](#取消激活)
-  - [查看网络数据请求](#查看网络数据请求)
+  - [获取网络数据信息](#获取网络数据信息)
     - [获取 flow List](#获取-flow-List)
     - [获取 flow ID](#获取-flow-ID)
     - [获取请求持续时长](#获取请求持续时长)
@@ -22,6 +22,7 @@
     - [获取请求对象](#获取请求对象)
     - [获取返回对象](#获取返回对象)
     - [清空 Flow 数据](#清空-Flow-数据)
+  - [获取指定频道的消息总线数据](#获取指定频道的消息总线数据)
 - [应用场景](#应用场景)
   - [在UI自动化中校验请求参数是否符合预期](#在UI自动化中校验请求参数是否符合预期)
   - [在UI自动化中校验返回与客户端展示是否一致](#在UI自动化中校验返回与客户端展示是否一致)
@@ -208,7 +209,7 @@ Lyrebird lyrebird = new Lyrebird();
 lyrebird.deactivate();
 ```
 
-### 查看网络数据请求
+### 获取网络数据信息
 
 flow 示例
 
@@ -345,6 +346,21 @@ Lyrebird lyrebird = new Lyrebird();
 
 // 清空 flow 列表
 lyrebird.clearFlowList();
+```
+
+### 获取指定频道的消息总线数据
+
+接口文档[点击这里](https://meituan-dianping.github.io/lyrebird/guide/api.html#获取已激活mock数据)
+
+```java
+// 获取 page 频道对应的消息总线数据
+EventDetail[] eventList = lyrebird.getEventList("page");
+
+// 获取该频道第0个事件的事件ID
+String eventID = eventList[0].getEventID();
+
+// 获取该频道第0个事件的内容
+String content = eventList[0].getContent();
 ```
 
 ## 应用场景

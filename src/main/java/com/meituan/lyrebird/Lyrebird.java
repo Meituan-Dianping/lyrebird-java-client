@@ -103,7 +103,7 @@ public class Lyrebird {
     /**
      * Get Lyrebird flow data detail
      *
-     * @param flowID 每条flow data都对应一个ID标识，通过ID可以查询该条数据的详细信息
+     * @param flowID The unique indication of the flow data
      * @return A flow detail which found by ID
      * @throws LyrebirdClientException
      */
@@ -124,5 +124,19 @@ public class Lyrebird {
             throw new LyrebirdClientException("Please start lyrebird server before call this function");
         }
         client.clearFlowList();
+    }
+
+    /**
+     * Get event list by channel
+     * 
+     * @param channel channel name
+     * @return Events a list of event
+     * @throws LyrebirdClientException
+     */
+    public EventDetail[] getEventList(String channel) throws LyrebirdClientException {
+        if (client == null) {
+            throw new LyrebirdClientException("Please start lyrebird server before call this function");
+        }
+        return client.getEventList(channel).getEvents();
     }
 }

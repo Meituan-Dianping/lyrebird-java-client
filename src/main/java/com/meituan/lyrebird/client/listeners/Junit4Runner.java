@@ -1,4 +1,4 @@
-package com.meituan.lyrebird.client.events;
+package com.meituan.lyrebird.client.listeners;
 
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;

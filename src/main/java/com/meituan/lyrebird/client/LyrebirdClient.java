@@ -162,4 +162,19 @@ public class LyrebirdClient {
             throw new LyrebirdClientException(resp.getMessage());
         }
     }
+
+    /**
+     * Get event list by channel
+     * 
+     * @param channel channel name
+     * @return Events a list of event
+     * @throws LyrebirdClientException
+     */
+    public Events getEventList(String channel) throws LyrebirdClientException {
+        try{
+            return lyrebirdService.getEventList(channel).execute().body();
+        } catch (IOException e) {
+            throw new LyrebirdClientException("Catch exception while find events by channel ", e);
+        }
+    }
 }
