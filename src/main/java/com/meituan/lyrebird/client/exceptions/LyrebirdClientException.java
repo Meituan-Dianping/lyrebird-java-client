@@ -1,6 +1,8 @@
 package com.meituan.lyrebird.client.exceptions;
 
 public class LyrebirdClientException extends Exception{
+    private static final long serialVersionUID = 1L;
+
     public LyrebirdClientException() {
         super();
     }
