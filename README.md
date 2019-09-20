@@ -136,7 +136,7 @@ public class DemoCase {
 ```xml
 <suite name="TestNGSample">
 <listeners>
-    <listener class-name="com.meituan.lyrebird.client.events.TestNGListener" />
+    <listener class-name="com.meituan.lyrebird.client.listeners.TestNGListener" />
 </listeners>
 <test name="Test Demo">
     <classes>
@@ -149,7 +149,7 @@ public class DemoCase {
 - 方法二：源码中直接添加
 
 ```java
-import com.meituan.lyrebird.client.events.TestNGListener;
+import com.meituan.lyrebird.client.listeners.TestNGListener;
 import com.meituan.lyrebird.client.MockData;
 ...
 

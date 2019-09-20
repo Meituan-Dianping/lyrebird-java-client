@@ -125,7 +125,7 @@ public class TestFunctional {
 
         assertEquals(200, flow.getResponse().getCode());
         assertEquals("tester", flow.getResponse().getHeaders().get("name"));
-        assertEquals(18, flow.getResponse().getData("$.age"));
+        assertEquals(Integer.valueOf(18), flow.getResponse().getData("$.age"));
         assertEquals("15.58", flow.getResponse().getData("$.price", String.class));
     }
 
