@@ -40,21 +40,23 @@ public class Response {
     /**
      * 传入 jsonPath 查询服务端返回数据中的对应内容
      * 
-     * @param jsonPath refer: https://github.com/json-path/JsonPath/edit/master/README.md
-     * @return 根据 jsonPath 查询得到的返回数据
+     * @param <T>
+     * @param jsonPath   refer: https://github.com/json-path/JsonPath/edit/master/README.md
+     * @return           根据 jsonPath 查询得到的返回数据
      */
-    public Object getData(String jsonPath) {
+    public <T> T getData(String jsonPath) {
         return JsonPath.parse(data).read(jsonPath);
     }
 
     /**
      * 传入 jsonPath, type 限制查询服务端返回数据的内容类型
      * 
-     * @param jsonPath refer: https://github.com/json-path/JsonPath/edit/master/README.md
-     * @param type 限制返回数据的类型 如：Integer.class 即限制返回的数据内容要求是整型
-     * @return 根据 jsonPath 和 type类型限制 查询得到的返回数据
+     * @param <T>
+     * @param jsonPath   refer: https://github.com/json-path/JsonPath/edit/master/README.md
+     * @param type       expected return type (will try to map)
+     * @return           根据 jsonPath 查询得到的返回数据
      */
-    public Object getData(String jsonPath, Class<?> type) {
+    public <T> T getData(String jsonPath, Class<T> type) {
         return JsonPath.parse(data).read(jsonPath, type);
     }
 
