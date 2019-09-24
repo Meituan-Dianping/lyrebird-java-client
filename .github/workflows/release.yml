@@ -1,7 +1,10 @@
 name: Lyrebird Java Client Release
 
-on: release
-  
+on: 
+  push:
+    tags:
+      - 'v*'
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
