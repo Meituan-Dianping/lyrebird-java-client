@@ -2,7 +2,7 @@ name: Lyrebird Java Client Publish
 
 on: 
   push: 
-    tags
+    tags:
       - 'v*'
 
 jobs:
