@@ -10,7 +10,7 @@ public class EventDetail {
     @JsonProperty("event_id")
     private String eventID;
     private String id;
-    private double timestamp;
+    private long timestamp;
 
     public String getChannel() {
         return channel;
@@ -44,11 +44,11 @@ public class EventDetail {
         this.id = id;
     }
 
-    public double getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(double timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }   
 }
