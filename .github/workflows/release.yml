@@ -4,7 +4,6 @@ on: release
   
 jobs:
   deploy:
-    needs: [build, test]
     runs-on: ubuntu-latest
 
     steps:
