@@ -38,7 +38,7 @@ jobs:
       with:
         java-version: 1.8
     - name: Deploy to Github Package Registry
-      if: github.event_name == 'release' && github.event.action == 'created'
+      if: github.event_name == 'release'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: mvn deploy -Dregistry=https://maven.pkg.github.com/reeyur
