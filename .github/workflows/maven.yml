@@ -28,7 +28,6 @@ jobs:
       run: mvn package --file pom.xml
 
   deploy:
-    if: github.event_name == 'push' && github.event.type == 'tags'
     needs: [build, test]
     runs-on: ubuntu-latest
 
@@ -39,6 +38,7 @@ jobs:
       with:
         java-version: 1.8
     - name: Deploy to Github Package Registry
+      if: github.event_name == 'release' && github.event.action == 'created'
       env:
-        GITHUB_TOKEN: bd11b20f05aad3a1a2d33938498d78b9ee86fcda
-      run: mvn deploy -Dregistry=https://maven.pkg.github.com/reeyur -Dtoken=bd11b20f05aad3a1a2d33938498d78b9ee86fcda
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: mvn deploy -Dregistry=https://maven.pkg.github.com/reeyur
