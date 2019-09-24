@@ -19,6 +19,14 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub reeyur Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/reeyur/lyrebird-java-client</url>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
