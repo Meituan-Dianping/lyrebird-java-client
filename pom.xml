@@ -5,7 +5,7 @@
 
     <groupId>com.meituan.lyrebird.sdk</groupId>
     <artifactId>lyrebird-java-client</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.1</version>
     <build>
         <plugins>
             <plugin>
@@ -22,8 +22,8 @@
     <distributionManagement>
         <repository>
             <id>github</id>
-            <name>GitHub reeyur Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/reeyur/lyrebird-java-client</url>
+            <name>GitHub Meituan-Dianping Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/Meituan-Dianping/lyrebird-java-client</url>
         </repository>
     </distributionManagement>
 
