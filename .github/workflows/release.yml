@@ -1,4 +1,4 @@
-name: Lyrebird Java Client CI
+name: Lyrebird Java Client Release
 
 on: release
   
