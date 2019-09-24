@@ -41,6 +41,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        echo github.event.types ${{ github.event.types }}
-        echo github.event_name.types ${{ github.event.types }}
-        mvn deploy -Dregistry=https://maven.pkg.github.com/reeyur
+        echo github.event.types ${{ github.event }}
+        echo github.event_name.types ${{ github.event_name }}
+        mkdir ~/.m2
+        echo "<settings><servers><server><id>github</id><username>reeyur</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
+        mvn deploy
