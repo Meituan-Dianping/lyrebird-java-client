@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 jobs:
-  test:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,4 +16,4 @@ jobs:
       with:
         java-version: 1.8
     - name: Maven Deploy
-      run: mvn deploy
+      run: mvn deploy -Dregistry=https://maven.pkg.github.com/reeyur -Dtoken=bd11b20f05aad3a1a2d33938498d78b9ee86fcda
