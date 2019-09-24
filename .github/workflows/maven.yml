@@ -41,8 +41,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        echo github.event.types ${{ github.event }}
-        echo github.event_name.types ${{ github.event_name }}
+        echo github.event.types ${{ github.event.action }}
         mkdir ~/.m2
         echo "<settings><servers><server><id>github</id><username>reeyur</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
         mvn deploy
