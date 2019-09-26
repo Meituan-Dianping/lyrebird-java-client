@@ -1,5 +1,10 @@
 # lyrebird-java-client
 
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/Meituan-Dianping/lyrebird-java-client.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Meituan-Dianping/lyrebird-java-client/alerts/)
+[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/Meituan-Dianping/lyrebird-java-client.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Meituan-Dianping/lyrebird-java-client/context:java)
+
+---
+
 - [简介](#简介)
 - [快速开始](#快速开始)
   - [环境要求](#环境要求)
