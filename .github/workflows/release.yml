@@ -21,6 +21,5 @@ jobs:
         GPG_EXECUTABLE: ${{ secrets.GPG_EXECUTABLE }}
         GPG_OWNERTRUST: ${{ secrets.GPG_OWNERTRUST }}
       run: |
-        echo "${GPG_SECRET_KEYS}" | gpg --batch --import
-        echo auto-key-retrieve > ~/.gnupg/gpg.conf
+        echo "${GPG_SECRET_KEYS}" | gpg --batch --import | echo auto-key-retrieve > ~/.gnupg/gpg.conf
         mvn --settings settings.xml deploy -B -U -P release
