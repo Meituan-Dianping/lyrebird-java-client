@@ -22,6 +22,5 @@ jobs:
         GPG_OWNERTRUST: ${{ secrets.GPG_OWNERTRUST }}
       run: |
         echo "${GPG_SECRET_KEYS}" | gpg --batch --import
-        echo gpg --list-keys
-        ls -al ~/.gnupg/*
+        echo auto-key-retrieve > ~/.gnupg/gpg.conf
         mvn --settings settings.xml deploy -B -U -P release
