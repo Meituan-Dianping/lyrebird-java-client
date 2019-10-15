@@ -22,6 +22,6 @@ jobs:
         GPG_OWNERTRUST: ${{ secrets.GPG_OWNERTRUST }}
       run: |
         export GPG_TTY=$(tty)
-        echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import
-        echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
+        echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import --no-tty --batch --yes
+        echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust --no-tty --batch --yes
         mvn --settings settings.xml deploy -B -U -P release
