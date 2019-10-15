@@ -17,5 +17,6 @@ jobs:
         java-version: 1.8
     - name: Deploy to Github Package Registry
       run: |
-        cat settings.xml
+        $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import
+        $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
         mvn --settings settings.xml deploy -B -U -P release
