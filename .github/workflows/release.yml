@@ -16,6 +16,6 @@ jobs:
       with:
         java-version: 1.8
     - name: Deploy to Github Package Registry
-      run:
-        cat settings.xml \
+      run: |
+        cat settings.xml
         mvn --settings settings.xml deploy -B -U -P release
