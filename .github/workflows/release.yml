@@ -17,4 +17,4 @@ jobs:
         java-version: 1.8
     - name: Deploy to Github Package Registry
       run:
-         mvn --settings settings.xml -B -U -Prelease
+        mvn --settings settings.xml deploy -B -U -P release
