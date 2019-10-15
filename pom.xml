@@ -5,7 +5,7 @@
 
     <groupId>com.meituan.lyrebird.sdk</groupId>
     <artifactId>lyrebird-java-client</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2</version>
 
     <name>lyrebird-java-client</name>
     <url>https://github.com/Meituan-Dianping/lyrebird-java-client</url>
