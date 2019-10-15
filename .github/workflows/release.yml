@@ -23,5 +23,5 @@ jobs:
       run: |
         echo "${GPG_SECRET_KEYS}" | gpg --batch --import
         echo gpg --list-keys
-        echo ~/.gnupg/gpg.conf
+        cat ~/.gnupg/gpg.conf
         mvn --settings settings.xml deploy -B -U -P release
