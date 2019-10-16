@@ -110,7 +110,7 @@ public class TestFunctional {
         FlowDetail flow = this.lyrebird.getFlowDetail("67ea0002-9566-41db-8178-ca0c2f82a71a");
 
         assertEquals("tester", flow.getRequest().getQuery().get("name"));
-        assertEquals(null, flow.getRequest().getData().get("age"));
+        assertEquals(null, flow.getRequest().getData());
         assertEquals("http://www.lyrebird.java.client.com/api/example", flow.getRequest().getUrl());
     }
 

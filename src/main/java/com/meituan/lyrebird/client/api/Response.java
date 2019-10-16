@@ -1,6 +1,5 @@
 package com.meituan.lyrebird.client.api;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -9,8 +8,8 @@ import com.jayway.jsonpath.JsonPath;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Response {
     private int code;
-    private Map<String, String> headers = new HashMap<>();
-    private Map<String, ?> data = new HashMap<>();
+    private Map headers;
+    private Map data;
 
     public int getCode() {
         return code;
@@ -20,11 +19,11 @@ public class Response {
         this.code = code;
     }
 
-    public Map<String, String> getHeaders() {
+    public Map getHeaders() {
         return headers;
     }
 
-    public void setHeaders(Map<String, String> headers) {
+    public void setHeaders(Map headers) {
         this.headers = headers;
     }
 
@@ -33,7 +32,7 @@ public class Response {
      * 
      * @return 服务端返回数据映射的 Java 对象
      */
-    public Map<String, ?> getData() {
+    public Map getData() {
         return data;
     }
 
@@ -60,7 +59,7 @@ public class Response {
         return JsonPath.parse(data).read(jsonPath, type);
     }
 
-    public void setData(Map<String, ?> data) {
+    public void setData(Map data) {
         this.data = data;
     }
 }

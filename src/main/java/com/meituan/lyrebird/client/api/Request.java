@@ -7,19 +7,19 @@ import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Request {
-    private Map<String, String> headers = new HashMap<>();
+    private Map headers;
     private String method;
-    private Map<String, String> query = new HashMap<>();
+    private Map query;
     private String url;
     private String host;
     private String path;
-    private Map<String, ?> data = new HashMap<>();
+    private Map data;
 
-    public Map<String, String> getHeaders() {
+    public Map getHeaders() {
         return headers;
     }
 
-    public void setHeaders(Map<String, String> headers) {
+    public void setHeaders(Map headers) {
         this.headers = headers;
     }
 
@@ -31,11 +31,11 @@ public class Request {
         this.method = method;
     }
 
-    public Map<String, String> getQuery() {
+    public Map getQuery() {
         return query;
     }
 
-    public void setQuery(Map<String, String> query) {
+    public void setQuery(Map query) {
         this.query = query;
     }
 
@@ -63,11 +63,11 @@ public class Request {
         this.path = path;
     }
 
-    public Map<String, ?> getData() {
+    public Map getData() {
         return data;
     }
 
-    public void setData(Map<String, ?> data) {
+    public void setData(Map data) {
         this.data = data;
     }
 }
