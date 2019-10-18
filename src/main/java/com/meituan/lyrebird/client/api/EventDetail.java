@@ -50,5 +50,10 @@ public class EventDetail {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
-    }   
+    }
+
+    @Override
+    public String toString() {
+        return String.format("| %s | %s | %s%n%s", eventID, channel, timestamp, content);
+    }
 }
