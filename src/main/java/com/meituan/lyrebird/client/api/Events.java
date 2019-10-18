@@ -48,6 +48,6 @@ public class Events extends BaseResponse {
 
     @Override
     public String toString() {
-        return String.format("| %s | %s | %s%n%s", page, pageCount, pageSize, Arrays.toString(eventDetails));
+        return String.format("%n[page] %s,[page count] %s, [page size] %s%n%s%n", page, pageCount, pageSize, Arrays.toString(eventDetails));
     }
 }

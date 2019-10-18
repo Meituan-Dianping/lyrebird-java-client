@@ -54,6 +54,6 @@ public class EventDetail {
 
     @Override
     public String toString() {
-        return String.format("| %s | %s | %s%n%s", eventID, channel, timestamp, content);
+        return String.format("%n[eventId] %s,[channel] %s, [timestamp] %s%n[content] %s%n", eventID, channel, timestamp, content);
     }
 }
