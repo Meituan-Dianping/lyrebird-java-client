@@ -28,6 +28,7 @@
     - [获取返回对象](#获取返回对象)
     - [清空 Flow 数据](#清空-Flow-数据)
   - [获取指定频道的消息总线数据](#获取指定频道的消息总线数据)
+  - [获取Socket对象进行事件监听](#获取Socket对象进行事件监听)
 - [应用场景](#应用场景)
   - [在UI自动化中校验请求参数是否符合预期](#在UI自动化中校验请求参数是否符合预期)
   - [在UI自动化中校验返回与客户端展示是否一致](#在UI自动化中校验返回与客户端展示是否一致)
@@ -366,6 +367,30 @@ String eventID = eventList[0].getEventID();
 
 // 获取该频道第0个事件的内容
 String content = eventList[0].getContent();
+```
+
+### 获取Socket对象进行事件监听
+
+使用[socket.io client](https://github.com/clwillingham/java-socket.io.client)监听Lyrebird socket事件消息
+
+```java
+// 获取 socket.io client
+Socket socket = lyrebird.getSocketInstance();
+
+// 事件监听
+socket.on("action", new Emitter.Listener() {
+
+    @Override
+    public void call(Object... args) {
+        // do something here...
+    }
+});
+
+// 建立连接
+socket.connect();
+
+// 关闭连接
+socket.disconnect();
 ```
 
 ## 应用场景

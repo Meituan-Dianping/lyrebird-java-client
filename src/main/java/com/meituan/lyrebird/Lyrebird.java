@@ -1,11 +1,14 @@
 package com.meituan.lyrebird;
 
+import io.socket.client.IO;
+import io.socket.client.Socket;
 import java.lang.reflect.Method;
 
 import com.meituan.lyrebird.client.LyrebirdClient;
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
 
 import com.meituan.lyrebird.client.api.*;
+import java.net.URISyntaxException;
 
 public class Lyrebird {
     private LyrebirdClient client;
@@ -138,5 +141,18 @@ public class Lyrebird {
             throw new LyrebirdClientException("Please start lyrebird server before call this function");
         }
         return client.getEventList(channel).getEvents();
+    }
+
+    /**
+     * Get an object of socket io
+     *
+     * @return
+     * @throws URISyntaxException
+     */
+    public Socket getSocketInstance() throws URISyntaxException, LyrebirdClientException {
+        if (client == null) {
+            throw new LyrebirdClientException("Please start lyrebird server before call this function");
+        }
+        return client.getSocketInstance(remoteAddress.get());
     }
 }
