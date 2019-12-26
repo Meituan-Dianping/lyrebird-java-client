@@ -193,11 +193,10 @@ public class LyrebirdClient {
         if (socket == null || !socket.connected()) {
             socket = IO.socket(lyrebirdRemoteAddress);
         }
-        socket.on(Socket.EVENT_CONNECT, objects -> System.out.println("[Lyrebird Java client Socket IO]: Connected."));
-        socket.on(Socket.EVENT_CONNECTING, objects -> System.out.println("[Lyrebird Java client Socket IO]: Connecting ..."));
-        socket.on(Socket.EVENT_CONNECT_TIMEOUT, objects -> System.out.println("[Lyrebird Java client Socket IO]: Connection timeout."));
-        socket.on(Socket.EVENT_CONNECT_ERROR, objects -> System.out.println("[Lyrebird Java client Socket IO]: Failed to connect."));
-        socket.on(Socket.EVENT_DISCONNECT, objects -> System.out.println("[Lyrebird Java client Socket IO]: Connection: closed."));
+        socket.on(Socket.EVENT_CONNECT, objects -> System.out.println("[Lyrebird Java client Socket IO]: Socket connection established"));
+        socket.on(Socket.EVENT_CONNECTING, objects -> System.out.println("[Lyrebird Java client Socket IO]: Socket connecting ..."));
+        socket.on(Socket.EVENT_CONNECT_TIMEOUT, objects -> System.out.println("[Lyrebird Java client Socket IO]: Connection timeout"));
+        socket.on(Socket.EVENT_CONNECT_ERROR, objects -> System.out.println("[Lyrebird Java client Socket IO]: Failed to connect"));
         return socket;
     }
 }
