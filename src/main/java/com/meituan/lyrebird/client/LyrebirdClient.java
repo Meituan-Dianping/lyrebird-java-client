@@ -2,6 +2,9 @@ package com.meituan.lyrebird.client;
 
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
 import com.meituan.lyrebird.client.api.*;
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import java.net.URISyntaxException;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
@@ -10,6 +13,7 @@ import java.lang.reflect.Method;
 
 public class LyrebirdClient {
     private LyrebirdService lyrebirdService;
+    private Socket socket;
 
     public LyrebirdClient(String lyrebirdRemoteAddress) {
         Retrofit retrofit = new Retrofit
@@ -65,7 +69,7 @@ public class LyrebirdClient {
 
     /**
      * Activate lyrebird mock data group by @MockData annotation
-     * 
+     *
      * @param method test method
      * @throws LyrebirdClientException
      */
@@ -73,7 +77,7 @@ public class LyrebirdClient {
         BaseResponse resp;
         MockData mockDataDeclareOnMethod = method.getDeclaredAnnotation(MockData.class);
         MockData mockDataDeclaredOnClass = method.getDeclaringClass().getAnnotation(MockData.class);
-        
+
         if (mockDataDeclareOnMethod == null && mockDataDeclaredOnClass == null) {
             throw new LyrebirdClientException("Catch exception while activate data, can not found any @MockData annotation declared");
         }
@@ -165,7 +169,7 @@ public class LyrebirdClient {
 
     /**
      * Get event list by channel
-     * 
+     *
      * @param channel channel name
      * @return Events a list of event
      * @throws LyrebirdClientException
@@ -176,5 +180,23 @@ public class LyrebirdClient {
         } catch (IOException e) {
             throw new LyrebirdClientException("Catch exception while find events by channel ", e);
         }
+    }
+
+    /**
+     * Get an object of socket io
+     *
+     * @param lyrebirdRemoteAddress
+     * @return
+     * @throws URISyntaxException
+     */
+    public Socket getSocketInstance(String lyrebirdRemoteAddress) throws URISyntaxException {
+        if (socket == null || !socket.connected()) {
+            socket = IO.socket(lyrebirdRemoteAddress);
+        }
+        socket.on(Socket.EVENT_CONNECT, objects -> System.out.println("[Lyrebird Java client Socket IO]: Socket connection established"));
+        socket.on(Socket.EVENT_CONNECTING, objects -> System.out.println("[Lyrebird Java client Socket IO]: Socket connecting ..."));
+        socket.on(Socket.EVENT_CONNECT_TIMEOUT, objects -> System.out.println("[Lyrebird Java client Socket IO]: Connection timeout"));
+        socket.on(Socket.EVENT_CONNECT_ERROR, objects -> System.out.println("[Lyrebird Java client Socket IO]: Failed to connect"));
+        return socket;
     }
 }
