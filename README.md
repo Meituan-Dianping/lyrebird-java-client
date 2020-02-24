@@ -1,5 +1,7 @@
 # lyrebird-java-client
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.meituan-dianping.lyrebird.sdk/lyrebird-java-client/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client)
+[![javadoc](https://javadoc.io/badge2/com.github.meituan-dianping.lyrebird.sdk/lyrebird-java-client/javadoc.svg)](https://javadoc.io/doc/com.github.meituan-dianping.lyrebird.sdk/lyrebird-java-client)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/Meituan-Dianping/lyrebird-java-client.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Meituan-Dianping/lyrebird-java-client/alerts/)
 [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/Meituan-Dianping/lyrebird-java-client.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Meituan-Dianping/lyrebird-java-client/context:java)
 
