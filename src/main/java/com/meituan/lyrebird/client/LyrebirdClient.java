@@ -183,17 +183,17 @@ public class LyrebirdClient {
     }
 
     /**
-     * get mock data by group id
+     * get mock data by data id
      *
-     * @param groupId mock group id
+     * @param dataId mock data id
      * @return
      * @throws LyrebirdClientException
      */
-    public Mock getMockData(String groupId) throws LyrebirdClientException {
+    public LBMockData getMockData(String dataId) throws LyrebirdClientException {
         try{
-            return lyrebirdService.getMockData(groupId).execute().body();
+            return lyrebirdService.getMockData(dataId).execute().body();
         } catch (IOException e) {
-            throw new LyrebirdClientException("Catch exception while find mock response data by group id ", e);
+            throw new LyrebirdClientException("Catch exception while get mock response data by data id ", e);
         }
     }
 
