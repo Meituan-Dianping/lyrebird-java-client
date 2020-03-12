@@ -20,6 +20,7 @@
       - [TestNG](#TestNG)
       - [Junit4](#Junit4)
     - [取消激活](#取消激活)
+    - [读取Mock数据](#读取Mock数据)
   - [获取网络数据信息](#获取网络数据信息)
     - [获取 flow List](#获取-flow-List)
     - [获取 flow ID](#获取-flow-ID)
@@ -215,6 +216,19 @@ public class TestClass {
 Lyrebird lyrebird = new Lyrebird();
 
 lyrebird.deactivate();
+```
+
+#### 读取Mock数据
+
+调用 getMockData(String dataId) 方法可以获取该数据组的 Mock 数据详情
+```java
+Lyrebird lyrebird = new Lyrebird();
+
+LBMockData lbMockData = lyrebird.getMockData("cfa0c589-8ef0-4885-b4f4-b9688c5af0d5");
+// 读取Mock数据名
+String mockDataName = lbMockData.getName();
+// 读取Mock Response (注意：Lyrebird服务端返回的是一个 Json 字符串，并不是一个 Json 对象)
+Object mockDataResponse = lbMockData.getResponseData();
 ```
 
 ### 获取网络数据信息

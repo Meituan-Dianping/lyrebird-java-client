@@ -183,6 +183,21 @@ public class LyrebirdClient {
     }
 
     /**
+     * get mock data by data id
+     *
+     * @param dataId mock data id
+     * @return
+     * @throws LyrebirdClientException
+     */
+    public LBMockData getMockData(String dataId) throws LyrebirdClientException {
+        try{
+            return lyrebirdService.getMockData(dataId).execute().body();
+        } catch (IOException e) {
+            throw new LyrebirdClientException("Catch exception while get mock response data by data id ", e);
+        }
+    }
+
+    /**
      * Get an object of socket io
      *
      * @param lyrebirdRemoteAddress

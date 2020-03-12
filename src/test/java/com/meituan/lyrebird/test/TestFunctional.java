@@ -5,6 +5,7 @@ import com.jayway.jsonpath.JsonPath;
 import com.meituan.lyrebird.Lyrebird;
 import com.meituan.lyrebird.client.api.*;
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
+import java.util.List;
 import okhttp3.mockwebserver.*;
 import org.junit.*;
 
@@ -166,5 +167,21 @@ public class TestFunctional {
         Assert.assertEquals("page", eventList[0].getChannel());
         Assert.assertEquals("com.lyrebird.java.client", JsonPath.parse(eventList[0].getContent()).read("$.page"));
         Assert.assertEquals("81825f43-5fd6-45f7-b22b-83493ca99e46", eventList[0].getEventID());
+    }
+
+    @Test
+    public void testLBMockData() throws LyrebirdClientException {
+    this.mockServer.enqueue(
+        new MockResponse()
+            .setBody(
+                "{\"code\": 1000,\"data\": {\"id\": \"cfa0c589-8ef0-4885-b4f4-b9688c5af0d5\", \"name\": \"test-data\", \"response\": {\"data\": \"[{\\\"type\\\": \\\"scheme\\\", \\\"info\\\":{\\\"value\\\": \\\"test://www.lyrebird.java.sdk.com\\\"}, \\\"desc\\\": \\\"The scheme of target page\\\"}]\"}}, \"message\": \"success\"}"));
+
+        LBMockData lbMockData = this.lyrebird.getMockData("cfa0c589-8ef0-4885-b4f4-b9688c5af0d5");
+        assertEquals("cfa0c589-8ef0-4885-b4f4-b9688c5af0d5", lbMockData.getId());
+        assertEquals("test-data", lbMockData.getName());
+
+        List<String> urlScheme = JsonPath.parse(lbMockData.getResponseData().toString()).read("$[?(@.type == 'scheme')].info.value");
+        assertEquals(1, urlScheme.size());
+        assertEquals("test://www.lyrebird.java.sdk.com", urlScheme.get(0));
     }
 }

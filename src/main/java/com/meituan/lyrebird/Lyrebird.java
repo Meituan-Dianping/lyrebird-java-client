@@ -143,6 +143,17 @@ public class Lyrebird {
     }
 
     /**
+     * Get mock data by data id
+     *
+     * @param dataId mock data id
+     * @return
+     * @throws LyrebirdClientException
+     */
+    public LBMockData getMockData(String dataId) throws LyrebirdClientException {
+        return client.getMockData(dataId);
+    }
+
+    /**
      * Get an object of socket io
      *
      * @return
