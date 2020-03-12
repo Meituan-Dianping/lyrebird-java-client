@@ -170,7 +170,7 @@ public class TestFunctional {
     }
 
     @Test
-    public void testMockDetails() throws LyrebirdClientException {
+    public void testLBMockData() throws LyrebirdClientException {
     this.mockServer.enqueue(
         new MockResponse()
             .setBody(
