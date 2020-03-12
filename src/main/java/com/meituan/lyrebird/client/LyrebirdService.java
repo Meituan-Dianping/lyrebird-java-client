@@ -27,4 +27,7 @@ public interface LyrebirdService {
 
     @GET("api/event/{channel}")
     Call<Events> getEventList(@Path("channel") String channel);
+
+    @GET("api/data/{groupId}")
+    Call<Mock> getMockData(@Path("groupId") String groupId);
 }

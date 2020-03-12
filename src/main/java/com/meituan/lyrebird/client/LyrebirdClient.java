@@ -183,6 +183,21 @@ public class LyrebirdClient {
     }
 
     /**
+     * get mock data by group id
+     *
+     * @param groupId mock group id
+     * @return
+     * @throws LyrebirdClientException
+     */
+    public Mock getMockData(String groupId) throws LyrebirdClientException {
+        try{
+            return lyrebirdService.getMockData(groupId).execute().body();
+        } catch (IOException e) {
+            throw new LyrebirdClientException("Catch exception while find mock response data by group id ", e);
+        }
+    }
+
+    /**
      * Get an object of socket io
      *
      * @param lyrebirdRemoteAddress

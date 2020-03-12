@@ -143,6 +143,17 @@ public class Lyrebird {
     }
 
     /**
+     * Get mock details by group id
+     *
+     * @param groupId
+     * @return
+     * @throws LyrebirdClientException
+     */
+    public MockDetail getMockDetailById(String groupId) throws LyrebirdClientException {
+        return client.getMockData(groupId).getMockDetail();
+    }
+
+    /**
      * Get an object of socket io
      *
      * @return
