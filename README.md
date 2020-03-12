@@ -228,7 +228,7 @@ LBMockData lbMockData = lyrebird.getMockData("cfa0c589-8ef0-4885-b4f4-b9688c5af0
 // 读取Mock数据名
 String mockDataName = lbMockData.getName();
 // 读取Mock Response (注意：Lyrebird服务端返回的是一个 Json 字符串，并不是一个 Json 对象)
-String mockDataResponse = lbMockData.getResponseData();
+Object mockDataResponse = lbMockData.getResponseData();
 ```
 
 ### 获取网络数据信息
