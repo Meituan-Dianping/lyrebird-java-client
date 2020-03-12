@@ -18,7 +18,7 @@ public class LBMockData extends BaseResponse {
     return data.get("name").toString();
   }
 
-  public String getResponseData() {
+  public <T> T getResponseData() {
     return JsonPath.parse(data.get("response")).read("$.data");
   }
 

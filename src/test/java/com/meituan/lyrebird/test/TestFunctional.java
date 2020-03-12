@@ -180,7 +180,7 @@ public class TestFunctional {
         Assert.assertEquals("cfa0c589-8ef0-4885-b4f4-b9688c5af0d5", lbMockData.getId());
         Assert.assertEquals("test-data", lbMockData.getName());
 
-        List<String> urlScheme = JsonPath.parse(lbMockData.getResponseData()).read("$[?(@.type == 'scheme')].info.value");
+        List<String> urlScheme = JsonPath.parse(lbMockData.getResponseData().toString()).read("$[?(@.type == 'scheme')].info.value");
         Assert.assertEquals(1, urlScheme.size());
         Assert.assertEquals("test://www.lyrebird.java.sdk.com", urlScheme.get(0));
     }
