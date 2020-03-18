@@ -1,5 +1,7 @@
 package com.meituan.lyrebird;
 
+import com.meituan.lyrebird.client.api.bandwidth.BandWidth;
+import com.meituan.lyrebird.client.api.bandwidth.SpeedLimit;
 import io.socket.client.Socket;
 import java.lang.reflect.Method;
 
@@ -151,6 +153,26 @@ public class Lyrebird {
      */
     public LBMockData getMockData(String dataId) throws LyrebirdClientException {
         return client.getMockData(dataId);
+    }
+
+    /**
+     * set the speed limit
+     *
+     * @param bandWidth
+     * @throws LyrebirdClientException
+     */
+    public void setSpeedLimit(BandWidth bandWidth) throws LyrebirdClientException {
+        client.setSpeedLimit(bandWidth);
+    }
+
+    /**
+     * get the speed limit bandwidth
+     *
+     * @return
+     * @throws LyrebirdClientException
+     */
+    public SpeedLimit getSpeedLimit() throws LyrebirdClientException {
+        return client.getSpeedLimit();
     }
 
     /**

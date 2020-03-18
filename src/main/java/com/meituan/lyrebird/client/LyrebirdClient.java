@@ -1,5 +1,8 @@
 package com.meituan.lyrebird.client;
 
+import com.meituan.lyrebird.client.api.bandwidth.BandWidth;
+import com.meituan.lyrebird.client.api.bandwidth.BandWidthTemplate;
+import com.meituan.lyrebird.client.api.bandwidth.SpeedLimit;
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
 import com.meituan.lyrebird.client.api.*;
 import io.socket.client.IO;
@@ -194,6 +197,42 @@ public class LyrebirdClient {
             return lyrebirdService.getMockData(dataId).execute().body();
         } catch (IOException e) {
             throw new LyrebirdClientException("Catch exception while get mock response data by data id ", e);
+        }
+    }
+
+    /**
+     * set the speed limit
+     *
+     * @param bandWidth an enum of BandWidth
+     * @throws LyrebirdClientException
+     */
+    public void setSpeedLimit(BandWidth bandWidth) throws LyrebirdClientException {
+        BandWidthTemplate template = new BandWidthTemplate(bandWidth);
+        BaseResponse resp;
+        try{
+            resp =  lyrebirdService.setSpeedLimit(template).execute().body();
+        } catch (IOException e) {
+            throw new LyrebirdClientException("Catch exception while set the speed limit", e);
+        }
+        if (resp == null) {
+            throw new LyrebirdClientException("Got none response from the speed limit request");
+        }
+        if (resp.getCode() != 1000) {
+            throw new LyrebirdClientException(resp.getMessage());
+        }
+    }
+
+    /**
+     * get the speed limit bandwidth
+     *
+     * @return
+     * @throws LyrebirdClientException
+     */
+    public SpeedLimit getSpeedLimit() throws LyrebirdClientException {
+        try {
+            return lyrebirdService.getSpeedLimit().execute().body();
+        } catch (IOException e) {
+            throw new LyrebirdClientException("Catch exception while get speed limit bandwidth.", e);
         }
     }
 

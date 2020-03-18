@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.jayway.jsonpath.JsonPath;
 import com.meituan.lyrebird.Lyrebird;
 import com.meituan.lyrebird.client.api.*;
+import com.meituan.lyrebird.client.api.bandwidth.BandWidth;
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
 import java.util.List;
 import okhttp3.mockwebserver.*;
@@ -171,10 +172,10 @@ public class TestFunctional {
 
     @Test
     public void testLBMockData() throws LyrebirdClientException {
-    this.mockServer.enqueue(
-        new MockResponse()
+        this.mockServer.enqueue(new MockResponse()
             .setBody(
-                "{\"code\": 1000,\"data\": {\"id\": \"cfa0c589-8ef0-4885-b4f4-b9688c5af0d5\", \"name\": \"test-data\", \"response\": {\"data\": \"[{\\\"type\\\": \\\"scheme\\\", \\\"info\\\":{\\\"value\\\": \\\"test://www.lyrebird.java.sdk.com\\\"}, \\\"desc\\\": \\\"The scheme of target page\\\"}]\"}}, \"message\": \"success\"}"));
+                "{\"code\": 1000,\"data\": {\"id\": \"cfa0c589-8ef0-4885-b4f4-b9688c5af0d5\", \"name\": \"test-data\", \"response\": {\"data\": \"[{\\\"type\\\": \\\"scheme\\\", \\\"info\\\":{\\\"value\\\": \\\"test://www.lyrebird.java.sdk.com\\\"}, \\\"desc\\\": \\\"The scheme of target page\\\"}]\"}}, \"message\": \"success\"}"
+            ));
 
         LBMockData lbMockData = this.lyrebird.getMockData("cfa0c589-8ef0-4885-b4f4-b9688c5af0d5");
         assertEquals("cfa0c589-8ef0-4885-b4f4-b9688c5af0d5", lbMockData.getId());
@@ -183,5 +184,69 @@ public class TestFunctional {
         List<String> urlScheme = JsonPath.parse(lbMockData.getResponseData().toString()).read("$[?(@.type == 'scheme')].info.value");
         assertEquals(1, urlScheme.size());
         assertEquals("test://www.lyrebird.java.sdk.com", urlScheme.get(0));
+    }
+
+    @Test
+    public void testMinimumSpeedLimit() throws LyrebirdClientException, InterruptedException {
+        this.mockServer.enqueue(new MockResponse()
+            .setBody("{\"code\": 1000, \"message\": \"success\", \"bandwidth\": 10}"
+            ));
+        lyrebird.setSpeedLimit(BandWidth.MINIMUM);
+        RecordedRequest request = this.mockServer.takeRequest();
+        assertEquals("{\"templateName\":\"2G\"}", request.getBody().readUtf8());
+
+        this.mockServer.enqueue(new MockResponse()
+            .setBody("{\"code\": 1000, \"message\": \"success\", \"bandwidth\": 10}"
+            ));
+        int bandwidth = lyrebird.getSpeedLimit().getBandwidth();
+        assertEquals(10, bandwidth);
+    }
+
+    @Test
+    public void testLowSpeedLimit() throws LyrebirdClientException, InterruptedException {
+        this.mockServer.enqueue(new MockResponse()
+            .setBody("{\"code\": 1000, \"message\": \"success\", \"bandwidth\": 35}"
+            ));
+        lyrebird.setSpeedLimit(BandWidth.LOW);
+        RecordedRequest request = this.mockServer.takeRequest();
+        assertEquals("{\"templateName\":\"2.5G\"}", request.getBody().readUtf8());
+
+        this.mockServer.enqueue(new MockResponse()
+            .setBody("{\"code\": 1000, \"message\": \"success\", \"bandwidth\": 35}"
+            ));
+        int bandwidth = lyrebird.getSpeedLimit().getBandwidth();
+        assertEquals(35, bandwidth);
+    }
+
+    @Test
+    public void testMediumSpeedLimit() throws LyrebirdClientException, InterruptedException {
+        this.mockServer.enqueue(new MockResponse()
+            .setBody("{\"code\": 1000, \"message\": \"success\", \"bandwidth\": 120}"
+            ));
+        lyrebird.setSpeedLimit(BandWidth.MEDIUM);
+        RecordedRequest request = this.mockServer.takeRequest();
+        assertEquals("{\"templateName\":\"3G\"}", request.getBody().readUtf8());
+
+        this.mockServer.enqueue(new MockResponse()
+            .setBody("{\"code\": 1000, \"message\": \"success\", \"bandwidth\": 120}"
+            ));
+        int bandwidth = lyrebird.getSpeedLimit().getBandwidth();
+        assertEquals(120, bandwidth);
+    }
+
+    @Test
+    public void testUnlimitedSpeedLimit() throws LyrebirdClientException, InterruptedException {
+        this.mockServer.enqueue(new MockResponse()
+            .setBody("{\"code\": 1000, \"message\": \"success\", \"bandwidth\": -1}"
+            ));
+        lyrebird.setSpeedLimit(BandWidth.UNLIMITED);
+        RecordedRequest request = this.mockServer.takeRequest();
+            assertEquals("{\"templateName\":\"UNLIMITED\"}", request.getBody().readUtf8());
+
+        this.mockServer.enqueue(new MockResponse()
+            .setBody("{\"code\": 1000, \"message\": \"success\", \"bandwidth\": -1}"
+            ));
+        int bandwidth = lyrebird.getSpeedLimit().getBandwidth();
+        assertEquals(-1, bandwidth);
     }
 }

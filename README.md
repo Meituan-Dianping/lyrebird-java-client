@@ -32,6 +32,7 @@
     - [清空 Flow 数据](#清空-Flow-数据)
   - [获取指定频道的消息总线数据](#获取指定频道的消息总线数据)
   - [获取Socket对象进行事件监听](#获取Socket对象进行事件监听)
+  - [设置带宽限速](#设置带宽谢安素)
 - [应用场景](#应用场景)
   - [在UI自动化中校验请求参数是否符合预期](#在UI自动化中校验请求参数是否符合预期)
   - [在UI自动化中校验返回与客户端展示是否一致](#在UI自动化中校验返回与客户端展示是否一致)
@@ -407,6 +408,21 @@ socket.connect();
 
 // 关闭连接
 socket.disconnect();
+```
+
+### 设置带宽谢安素
+
+[Lyrebird 获取/设置网络带宽限速接口文档](https://meituan-dianping.github.io/lyrebird/guide/api.html#%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E7%BD%91%E7%BB%9C%E5%B8%A6%E5%AE%BD%E9%99%90%E9%80%9F)
+
+```java
+// 设置带宽限速为2G
+lyrebird.setSpeedLimit(BandWidth.MINIMUM);
+// 设置带宽限速为2.5G
+lyrebird.setSpeedLimit(BandWidth.LOW);
+// 设置带宽限速为3G
+lyrebird.setSpeedLimit(BandWidth.MEDIUM);
+// 获取带宽速度
+int bandwidth = lyrebird.getSpeedLimit().getBandwidth();
 ```
 
 ## 应用场景
