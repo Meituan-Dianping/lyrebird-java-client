@@ -1,6 +1,5 @@
 package com.meituan.lyrebird.client;
 
-import com.meituan.lyrebird.client.api.bandwidth.BandWidth;
 import com.meituan.lyrebird.client.api.bandwidth.BandWidthTemplate;
 import com.meituan.lyrebird.client.api.bandwidth.SpeedLimit;
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
@@ -206,7 +205,7 @@ public class LyrebirdClient {
      * @param bandWidth an enum of BandWidth
      * @throws LyrebirdClientException
      */
-    public void setSpeedLimit(BandWidth bandWidth) throws LyrebirdClientException {
+    public void setSpeedLimit(String bandWidth) throws LyrebirdClientException {
         BandWidthTemplate template = new BandWidthTemplate(bandWidth);
         BaseResponse resp;
         try{
