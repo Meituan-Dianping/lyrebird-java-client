@@ -1,5 +1,6 @@
 package com.meituan.lyrebird;
 
+import com.meituan.lyrebird.client.api.bandwidth.BandWidth;
 import com.meituan.lyrebird.client.api.bandwidth.SpeedLimit;
 import io.socket.client.Socket;
 import java.lang.reflect.Method;
@@ -160,7 +161,7 @@ public class Lyrebird {
      * @param bandWidth
      * @throws LyrebirdClientException
      */
-    public void setSpeedLimit(String bandWidth) throws LyrebirdClientException {
+    public void setSpeedLimit(BandWidth bandWidth) throws LyrebirdClientException {
         client.setSpeedLimit(bandWidth);
     }
 

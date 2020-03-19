@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.jayway.jsonpath.JsonPath;
 import com.meituan.lyrebird.Lyrebird;
 import com.meituan.lyrebird.client.api.*;
+import com.meituan.lyrebird.client.api.bandwidth.BandWidth;
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
 import java.util.List;
 import okhttp3.mockwebserver.*;
@@ -186,11 +187,11 @@ public class TestFunctional {
     }
 
     @Test
-    public void test2GSpeedLimit() throws LyrebirdClientException, InterruptedException {
+    public void testMinimumSpeedLimit() throws LyrebirdClientException, InterruptedException {
         this.mockServer.enqueue(new MockResponse()
             .setBody("{\"code\": 1000, \"message\": \"success\", \"bandwidth\": 10}"
             ));
-        lyrebird.setSpeedLimit("2G");
+        lyrebird.setSpeedLimit(BandWidth.MINIMUM);
         RecordedRequest request = this.mockServer.takeRequest();
         assertEquals("{\"templateName\":\"2G\"}", request.getBody().readUtf8());
 
@@ -202,11 +203,11 @@ public class TestFunctional {
     }
 
     @Test
-    public void test2Point5GSpeedLimit() throws LyrebirdClientException, InterruptedException {
+    public void testLowSpeedLimit() throws LyrebirdClientException, InterruptedException {
         this.mockServer.enqueue(new MockResponse()
             .setBody("{\"code\": 1000, \"message\": \"success\", \"bandwidth\": 35}"
             ));
-        lyrebird.setSpeedLimit("2.5G");
+        lyrebird.setSpeedLimit(BandWidth.LOW);
         RecordedRequest request = this.mockServer.takeRequest();
         assertEquals("{\"templateName\":\"2.5G\"}", request.getBody().readUtf8());
 
@@ -218,11 +219,11 @@ public class TestFunctional {
     }
 
     @Test
-    public void test3GSpeedLimit() throws LyrebirdClientException, InterruptedException {
+    public void testMediumSpeedLimit() throws LyrebirdClientException, InterruptedException {
         this.mockServer.enqueue(new MockResponse()
             .setBody("{\"code\": 1000, \"message\": \"success\", \"bandwidth\": 120}"
             ));
-        lyrebird.setSpeedLimit("3G");
+        lyrebird.setSpeedLimit(BandWidth.MEDIUM);
         RecordedRequest request = this.mockServer.takeRequest();
         assertEquals("{\"templateName\":\"3G\"}", request.getBody().readUtf8());
 
@@ -238,7 +239,7 @@ public class TestFunctional {
         this.mockServer.enqueue(new MockResponse()
             .setBody("{\"code\": 1000, \"message\": \"success\", \"bandwidth\": -1}"
             ));
-        lyrebird.setSpeedLimit("UNLIMITED");
+        lyrebird.setSpeedLimit(BandWidth.UNLIMITED);
         RecordedRequest request = this.mockServer.takeRequest();
             assertEquals("{\"templateName\":\"UNLIMITED\"}", request.getBody().readUtf8());
 
