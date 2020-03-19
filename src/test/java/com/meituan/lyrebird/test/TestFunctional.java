@@ -203,7 +203,7 @@ public class TestFunctional {
     }
 
     @Test
-    public void test2_5GSpeedLimit() throws LyrebirdClientException, InterruptedException {
+    public void test25GSpeedLimit() throws LyrebirdClientException, InterruptedException {
         this.mockServer.enqueue(new MockResponse()
             .setBody("{\"code\": 1000, \"message\": \"success\", \"bandwidth\": 35}"
             ));
