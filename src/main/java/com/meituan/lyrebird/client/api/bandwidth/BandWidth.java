@@ -1,11 +1,8 @@
 package com.meituan.lyrebird.client.api.bandwidth;
 
 /**
- * MINIMUM: 2G
- * LOW: 2.5G
- * MEDIUM: 3G
- * UNLIMITED: UNLIMITED
+ * 网络带宽枚举
  */
 public enum BandWidth {
-  MINIMUM, LOW, MEDIUM, UNLIMITED
+  BAND_WIDTH_2G, BAND_WIDTH_2_5G, BAND_WIDTH_3G, UNLIMITED
 }

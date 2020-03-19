@@ -187,11 +187,11 @@ public class TestFunctional {
     }
 
     @Test
-    public void testMinimumSpeedLimit() throws LyrebirdClientException, InterruptedException {
+    public void test2GSpeedLimit() throws LyrebirdClientException, InterruptedException {
         this.mockServer.enqueue(new MockResponse()
             .setBody("{\"code\": 1000, \"message\": \"success\", \"bandwidth\": 10}"
             ));
-        lyrebird.setSpeedLimit(BandWidth.MINIMUM);
+        lyrebird.setSpeedLimit(BandWidth.BAND_WIDTH_2G);
         RecordedRequest request = this.mockServer.takeRequest();
         assertEquals("{\"templateName\":\"2G\"}", request.getBody().readUtf8());
 
@@ -203,11 +203,11 @@ public class TestFunctional {
     }
 
     @Test
-    public void testLowSpeedLimit() throws LyrebirdClientException, InterruptedException {
+    public void test2_5GSpeedLimit() throws LyrebirdClientException, InterruptedException {
         this.mockServer.enqueue(new MockResponse()
             .setBody("{\"code\": 1000, \"message\": \"success\", \"bandwidth\": 35}"
             ));
-        lyrebird.setSpeedLimit(BandWidth.LOW);
+        lyrebird.setSpeedLimit(BandWidth.BAND_WIDTH_2_5G);
         RecordedRequest request = this.mockServer.takeRequest();
         assertEquals("{\"templateName\":\"2.5G\"}", request.getBody().readUtf8());
 
@@ -219,11 +219,11 @@ public class TestFunctional {
     }
 
     @Test
-    public void testMediumSpeedLimit() throws LyrebirdClientException, InterruptedException {
+    public void test3GSpeedLimit() throws LyrebirdClientException, InterruptedException {
         this.mockServer.enqueue(new MockResponse()
             .setBody("{\"code\": 1000, \"message\": \"success\", \"bandwidth\": 120}"
             ));
-        lyrebird.setSpeedLimit(BandWidth.MEDIUM);
+        lyrebird.setSpeedLimit(BandWidth.BAND_WIDTH_3G);
         RecordedRequest request = this.mockServer.takeRequest();
         assertEquals("{\"templateName\":\"3G\"}", request.getBody().readUtf8());
 

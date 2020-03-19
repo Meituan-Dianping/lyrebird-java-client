@@ -158,7 +158,7 @@ public class Lyrebird {
     /**
      * set the speed limit
      *
-     * @param bandWidth
+     * @param bandWidth BAND_WIDTH_2G对应2G；BAND_WIDTH_2_5G对应2.5G；BAND_WIDTH_3G对应3G；UNLIMITED对应无限制
      * @throws LyrebirdClientException
      */
     public void setSpeedLimit(BandWidth bandWidth) throws LyrebirdClientException {

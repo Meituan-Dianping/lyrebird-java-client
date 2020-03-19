@@ -5,13 +5,13 @@ public class BandWidthTemplate {
 
   public BandWidthTemplate(BandWidth bandWidth) {
     switch (bandWidth) {
-      case MINIMUM:
+      case BAND_WIDTH_2G:
         templateName = "2G";
         break;
-      case LOW:
+      case BAND_WIDTH_2_5G:
         templateName = "2.5G";
         break;
-      case MEDIUM:
+      case BAND_WIDTH_3G:
         templateName = "3G";
         break;
       default:
