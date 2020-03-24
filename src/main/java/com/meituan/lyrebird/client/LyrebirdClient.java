@@ -1,7 +1,7 @@
 package com.meituan.lyrebird.client;
 
-import com.meituan.lyrebird.client.api.bandwidth.BandWidth;
-import com.meituan.lyrebird.client.api.bandwidth.BandWidthTemplate;
+import com.meituan.lyrebird.client.api.bandwidth.Bandwidth;
+import com.meituan.lyrebird.client.api.bandwidth.BandwidthTemplate;
 import com.meituan.lyrebird.client.api.bandwidth.SpeedLimit;
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
 import com.meituan.lyrebird.client.api.*;
@@ -203,14 +203,14 @@ public class LyrebirdClient {
     /**
      * set the speed limit
      *
-     * @param bandWidth an enum of BandWidth
+     * @param bandwidth an enum of Bandwidth
      * @throws LyrebirdClientException
      */
-    public void setSpeedLimit(BandWidth bandWidth) throws LyrebirdClientException {
-        BandWidthTemplate template = new BandWidthTemplate(bandWidth);
+    public void setSpeedLimit(Bandwidth bandwidth) throws LyrebirdClientException {
+        BandwidthTemplate bandwidthTemplate = new BandwidthTemplate(bandwidth);
         BaseResponse resp;
         try{
-            resp =  lyrebirdService.setSpeedLimit(template).execute().body();
+            resp =  lyrebirdService.setSpeedLimit(bandwidthTemplate).execute().body();
         } catch (IOException e) {
             throw new LyrebirdClientException("Catch exception while set the speed limit", e);
         }

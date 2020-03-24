@@ -1,17 +1,17 @@
 package com.meituan.lyrebird.client.api.bandwidth;
 
-public class BandWidthTemplate {
+public class BandwidthTemplate {
   private String templateName;
 
-  public BandWidthTemplate(BandWidth bandWidth) {
-    switch (bandWidth) {
-      case BAND_WIDTH_2G:
+  public BandwidthTemplate(Bandwidth bandwidth) {
+    switch (bandwidth) {
+      case BANDWIDTH_2G:
         templateName = "2G";
         break;
-      case BAND_WIDTH_2_5G:
+      case BANDWIDTH_2_5G:
         templateName = "2.5G";
         break;
-      case BAND_WIDTH_3G:
+      case BANDWIDTH_3G:
         templateName = "3G";
         break;
       default:

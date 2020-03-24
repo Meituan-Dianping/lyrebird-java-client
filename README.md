@@ -416,13 +416,13 @@ socket.disconnect();
 
 ```java
 // 设置带宽限速为2G
-lyrebird.setSpeedLimit(BandWidth.BAND_WIDTH_2G);
+lyrebird.setSpeedLimit(Bandwidth.BAND_WIDTH_2G);
 // 设置带宽限速为2.5G
-lyrebird.setSpeedLimit(BandWidth.BAND_WIDTH_2_5G);
+lyrebird.setSpeedLimit(Bandwidth.BAND_WIDTH_2_5G);
 // 设置带宽限速为3G
-lyrebird.setSpeedLimit(BandWidth.BAND_WIDTH_3G);
+lyrebird.setSpeedLimit(Bandwidth.BAND_WIDTH_3G);
 // 设置带宽不限速
-lyrebird.setSpeedLimit(BandWidth.UNLIMITED);
+lyrebird.setSpeedLimit(Bandwidth.UNLIMITED);
 // 获取带宽速度
 int bandwidth = lyrebird.getSpeedLimit().getBandwidth();
 ```

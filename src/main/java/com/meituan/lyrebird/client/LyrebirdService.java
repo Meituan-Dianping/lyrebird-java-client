@@ -2,7 +2,7 @@ package com.meituan.lyrebird.client;
 
 import com.meituan.lyrebird.client.api.*;
 
-import com.meituan.lyrebird.client.api.bandwidth.BandWidthTemplate;
+import com.meituan.lyrebird.client.api.bandwidth.BandwidthTemplate;
 import com.meituan.lyrebird.client.api.bandwidth.SpeedLimit;
 import retrofit2.Call;
 import retrofit2.http.*;
@@ -35,7 +35,7 @@ public interface LyrebirdService {
 
     @Headers("Content-Type: application/json")
     @PUT("api/bandwidth")
-    Call<SpeedLimit> setSpeedLimit(@Body BandWidthTemplate template);
+    Call<SpeedLimit> setSpeedLimit(@Body BandwidthTemplate template);
 
     @GET("api/bandwidth")
     Call<SpeedLimit> getSpeedLimit();
