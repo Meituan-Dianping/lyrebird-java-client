@@ -2,6 +2,9 @@ package com.meituan.lyrebird.client;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.meituan.lyrebird.client.api.bandwidth.Bandwidth;
+import com.meituan.lyrebird.client.api.bandwidth.BandwidthTemplate;
+import com.meituan.lyrebird.client.api.bandwidth.SpeedLimit;
 import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
 import com.meituan.lyrebird.client.api.*;
 import io.socket.client.IO;
@@ -198,6 +201,42 @@ public class LyrebirdClient {
             return lyrebirdService.getMockData(dataId).execute().body();
         } catch (IOException e) {
             throw new LyrebirdClientException("Catch exception while get mock response data by data id ", e);
+        }
+    }
+
+    /**
+     * set the speed limit
+     *
+     * @param bandwidth an enum of Bandwidth
+     * @throws LyrebirdClientException
+     */
+    public void setSpeedLimit(Bandwidth bandwidth) throws LyrebirdClientException {
+        BandwidthTemplate bandwidthTemplate = new BandwidthTemplate(bandwidth);
+        BaseResponse resp;
+        try{
+            resp =  lyrebirdService.setSpeedLimit(bandwidthTemplate).execute().body();
+        } catch (IOException e) {
+            throw new LyrebirdClientException("Catch exception while set the speed limit", e);
+        }
+        if (resp == null) {
+            throw new LyrebirdClientException("Got none response from the speed limit request");
+        }
+        if (resp.getCode() != 1000) {
+            throw new LyrebirdClientException(resp.getMessage());
+        }
+    }
+
+    /**
+     * get the speed limit bandwidth
+     *
+     * @return
+     * @throws LyrebirdClientException
+     */
+    public SpeedLimit getSpeedLimit() throws LyrebirdClientException {
+        try {
+            return lyrebirdService.getSpeedLimit().execute().body();
+        } catch (IOException e) {
+            throw new LyrebirdClientException("Catch exception while get speed limit bandwidth.", e);
         }
     }
 
