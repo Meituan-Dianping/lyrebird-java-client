@@ -1,5 +1,7 @@
 package com.meituan.lyrebird.client;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meituan.lyrebird.client.api.bandwidth.Bandwidth;
 import com.meituan.lyrebird.client.api.bandwidth.BandwidthTemplate;
 import com.meituan.lyrebird.client.api.bandwidth.SpeedLimit;
@@ -19,10 +21,12 @@ public class LyrebirdClient {
     private Socket socket;
 
     public LyrebirdClient(String lyrebirdRemoteAddress) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
         Retrofit retrofit = new Retrofit
                 .Builder()
                 .baseUrl(lyrebirdRemoteAddress)
-                .addConverterFactory(JacksonConverterFactory.create())
+                .addConverterFactory(JacksonConverterFactory.create(mapper))
                 .build();
         lyrebirdService = retrofit.create(LyrebirdService.class);
     }
