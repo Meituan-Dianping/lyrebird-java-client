@@ -141,6 +141,9 @@ public class Lyrebird {
         if (client == null) {
             throw new LyrebirdClientException("Please start lyrebird server before call this function");
         }
+        if (client.getEventList(channel) == null){
+            return null;
+        }
         return client.getEventList(channel).getEvents();
     }
 
