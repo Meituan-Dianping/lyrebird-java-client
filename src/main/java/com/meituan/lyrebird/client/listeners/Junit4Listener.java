@@ -8,9 +8,7 @@ import org.junit.runner.notification.RunListener;
 public class Junit4Listener extends RunListener {
     
     @Override
-    public void testStarted(Description description)
-            throws NoSuchMethodException, SecurityException, LyrebirdClientException {
-        Lyrebird lyrebird = new Lyrebird(Lyrebird.getRemoteAddress());
-        lyrebird.activate(description.getTestClass().getMethod(description.getMethodName()));
+    public void testStarted(Description description) throws  SecurityException {
+
     }
 }
