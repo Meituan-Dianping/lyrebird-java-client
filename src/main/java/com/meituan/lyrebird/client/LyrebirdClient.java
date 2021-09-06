@@ -10,11 +10,14 @@ import com.meituan.lyrebird.client.api.*;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import java.net.URISyntaxException;
+import okhttp3.OkHttpClient;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 
 public class LyrebirdClient {
     private LyrebirdService lyrebirdService;
@@ -23,11 +26,22 @@ public class LyrebirdClient {
     public LyrebirdClient(String lyrebirdRemoteAddress) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-        Retrofit retrofit = new Retrofit
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
+                .callTimeout(1, TimeUnit.MINUTES)
+                .connectTimeout(1,TimeUnit.MINUTES)
+                .readTimeout(1,TimeUnit.MINUTES)
+                .writeTimeout(1,TimeUnit.MINUTES);
+
+        Retrofit.Builder builder = new Retrofit
                 .Builder()
                 .baseUrl(lyrebirdRemoteAddress)
-                .addConverterFactory(JacksonConverterFactory.create(mapper))
-                .build();
+                .addConverterFactory(JacksonConverterFactory.create(mapper));
+
+        builder.client(httpClient.build());
+        Retrofit retrofit = builder.build();
+
+        // create service
         lyrebirdService = retrofit.create(LyrebirdService.class);
     }
 
