@@ -23,22 +23,29 @@ public class LyrebirdClient {
     private LyrebirdService lyrebirdService;
     private Socket socket;
 
-    public LyrebirdClient(String lyrebirdRemoteAddress) {
+    public LyrebirdClient(
+            String lyrebirdRemoteAddress,
+            TimeUnit timeUnit,
+            long callTimeout,
+            long connectTimeout,
+            long readTimeout,
+            long writeTimeout
+    ) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
-                .callTimeout(1, TimeUnit.MINUTES)
-                .connectTimeout(1,TimeUnit.MINUTES)
-                .readTimeout(1,TimeUnit.MINUTES)
-                .writeTimeout(1,TimeUnit.MINUTES);
+                .callTimeout(callTimeout, timeUnit)
+                .connectTimeout(connectTimeout,timeUnit)
+                .readTimeout(readTimeout,timeUnit)
+                .writeTimeout(writeTimeout,timeUnit);
 
         Retrofit.Builder builder = new Retrofit
                 .Builder()
                 .baseUrl(lyrebirdRemoteAddress)
-                .addConverterFactory(JacksonConverterFactory.create(mapper));
+                .addConverterFactory(JacksonConverterFactory.create(mapper))
+                .client(httpClient.build());
 
-        builder.client(httpClient.build());
         Retrofit retrofit = builder.build();
 
         // create service
