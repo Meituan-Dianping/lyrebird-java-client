@@ -11,7 +11,6 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import java.net.URISyntaxException;
 import okhttp3.OkHttpClient;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
