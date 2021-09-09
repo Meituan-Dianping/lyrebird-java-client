@@ -10,6 +10,7 @@ import com.meituan.lyrebird.client.exceptions.LyrebirdClientException;
 
 import com.meituan.lyrebird.client.api.*;
 import java.net.URISyntaxException;
+import java.util.concurrent.TimeUnit;
 
 public class Lyrebird {
     private LyrebirdClient client;
@@ -20,7 +21,25 @@ public class Lyrebird {
     }
 
     public Lyrebird(String lyrebirdRemoteAddress) {
-        client = new LyrebirdClient(lyrebirdRemoteAddress);
+        this(lyrebirdRemoteAddress,TimeUnit.SECONDS,0,10,10,0);
+    }
+
+    public Lyrebird(
+            String lyrebirdRemoteAddress,
+            TimeUnit timeUnit,
+            long callTimeout,
+            long connectTimeout,
+            long readTimeout,
+            long writeTimeout
+    ) {
+        client = new LyrebirdClient(
+            lyrebirdRemoteAddress,
+            timeUnit,
+            callTimeout,
+            connectTimeout,
+            readTimeout,
+            writeTimeout
+        );
     }
 
     /**
